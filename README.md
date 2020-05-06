@@ -114,3 +114,5 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   - Many more fun calculators made of text.
   - The ability to inline HTML. 
   - Citations so that we know where the math is coming from.
+- Design
+  - Actual design by designers who design
