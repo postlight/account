@@ -41,7 +41,7 @@ function Nav(props) {
 		       {[Object.keys(props.textVars).map(makeLink)]}
 		   </div>
 		   <div id="footer">
-		       <p>This is <b><a href="https://github.com/postlight/account">Account</a></b>, a <a href="https://postlight.com/labs">Postlight Labs Mini-labs Weekend project</a> by <a href="https://twitter.com/ftrain">Paul Ford</a>. <a href="https://github.com/postlight/account">Get the code</a>, it's open source.</p>
+		       <p>This is <b><a href="https://github.com/postlight/account">Account</a></b>, a <a href="https://postlight.com/labs">Postlight "Mini-Labs" project</a> by <a href="https://twitter.com/ftrain">Paul Ford</a>. <a href="https://github.com/postlight/account">Get the code</a>, it's open source.</p>
 		   </div>
 	       </div>
 
