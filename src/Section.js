@@ -7,7 +7,6 @@ import Text from './Text';
 
 import './Section.css';
 
-
 function Section(props) {
     const [state, setState] = useState(props.astState);
     const [ast, setAST] = useState(props.ast);
@@ -26,7 +25,7 @@ function Section(props) {
 	switch (o.type) {
 	    
 	case 'text':
-	    return <Text {...o} i={i}/>
+	    return <Text key={i} {...o}/>
 	    
 	case 'statement':
 	    return <span className="full-statement" key={i}>
@@ -34,10 +33,12 @@ function Section(props) {
 			   key={o.variable}
 			   addField={addField}
 			   valueFromState={state[o.variable]}
+			   i={i}
 			   {...o}
 		       />
 		       <Statement
 			   valueFromState={state[o.variable]}
+			   i={i}
 			   {...o}
 		       />
 		       
@@ -69,7 +70,6 @@ function Section(props) {
 	}
 	    
     }
-
 
     return <div id="text">
 	       <h1 key='h1'>{props.page}</h1>

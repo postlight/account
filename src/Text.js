@@ -4,7 +4,7 @@ import Twemoji from "react-emoji-render";
 
 function Text(props) {
     return <span className="text">
-	       <Twemoji text={props.value}/>
+	       <Twemoji key={props.i} text={props.value}/>
 	   </span>;
 
 }
