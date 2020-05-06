@@ -6,7 +6,6 @@ Account is a markup format for making web pages like this:
 
 ## What is this?
 
-
 It's a tool for making short accounts, which are accounts that account for themselves using accounting.
 
 In less annoying terms, it parses a tiny markup format and makes interactive web content with sliders. When you change a value in one slider it may change lots of other values.
@@ -15,7 +14,7 @@ My name is [Paul Ford](https://github.com/ftrain/) and I made it because I make 
 
 Now that I've made it I will return to it when 
 
-## Why wouldn't I use Tangle/Idyll/Smalltalk-80/Excel
+## Why wouldn't I use Tangle/Idyll/Smalltalk-80/Excel?
 
 You should use those, they do more and are better. [Tangle](http://worrydream.com/Tangle/), [Idyll](https://idyll-lang.org/), [Smalltalk-80](https://pharo.org/), or a [spreadsheet](https://en.wikipedia.org/wiki/VisiCalc) are tools for smart people who like code, or spreadsheet people who like numbers. Account is a tool for dumb people who like moving sliders around so they can watch the numbers go, like me.
 
@@ -24,6 +23,7 @@ You should use those, they do more and are better. [Tangle](http://worrydream.co
 You don't yet, you have to pull this repository and make your own. I'm releasing early. Pull requests welcome.
 
 ## Sample text
+
 To make the page shown in the screenshot above, you'd write:
 
 ```
@@ -44,13 +44,16 @@ within a decade. :+1:
 
 ```
 
+That's the formula for compound interest I got off some website. I'm sure I screwed something up. Pull requests welcomed.
+
 Notice that newlines don't really matter. They're not real and they can't hurt you. If you want to include spacing between lines you can't. Paragraph spacing was a wasteful orthographic indulgence by lazy monks and we don't allow it here.
 
 ## What it does
+
 * Reads a text file, and by text I mean text.
 * Respects emojis between ```:``` colons like ```:+1:```.
 * Respects two special bracketing formats:
-   1. ```{[number or range]:[variable name]}```
+   1. ```{[single number or range]:[variable name]}```
    2. ```{=[expression]:[variable name]}```
 
 So:
@@ -59,14 +62,16 @@ So:
 
 Yields:
 
-> ```===[-]===``` 15 wholes is *20* halves.
+> ```=O=``` 15 wholes is *20* halves.
 
-- (Where ```===[-]===``` is a range slider in HTML.) And when you move the slider around the numbers change. Whoo hoo!
-- Numbers are just numbers, and can be negative (currently only on the lefthand-side, sorry!) or have decimal points.
+- (Where ```=O=``` is a ```<input type="range"/>``` slider in HTML5.) And when you move the slider around the numbers change. Whoo hoo!
+- Numbers are just numbers, and can be negative (currently only on the left-hand-side of a statement, sorry!) or have decimal points.
 - If you use a dollar sign ala ```${100:dollars}``` it will try to format things intelligently.
 - It'll try to keep the number of decimal points steady, i.e. if you type ```{0.00-100.00:rating}``` it'll format the output to the hundredth after the decimal. (Most of that stuff is hacky, YMMV.)
 
 ## Under the hood
+
+I run a software firm which means I'm an executive programmer: I did very little and delegated all the hard work to libraries, while taking all the credit.
 
 ### Mathing
 The thing that does the math is [expr-eval](https://github.com/silentmatt/expr-eval), which has most of the regular functions you'd expect and is pretty nice about symbols, and is both fast and reliable after trying a few alternatives.
@@ -81,8 +86,18 @@ The text is parsed by [parsimmon](https://github.com/jneen/parsimmon), which was
 
 The numbers are formatted by [numeral.js](http://numeraljs.com/), which does what it says.
 
+### Hamburgling
+
+Note as well the very fine [React Hamburger Menu](https://www.npmjs.com/package/react-hamburger-menu) which gave this site a hamburger menu so that I didn't have to read through five React Hamburger Menu tutorials while cutting-and-pasting the one approach that would work with Router and React hooks 16.8 or greater.
+
 ## Code Notes
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It has yet to be ejected. 
+
+
+## Could this be used for evil?
+- Yes, if people used it to "prove" things that are nonsense, like a Eugenics calculator about improving the genetic stock of humanity, or a calculator that proved that a certain percentage of humans must be turned into food.
+- C.f. also "How to Lie with Statistics."
+  - I'll consider those risks as time passes. Since the only way to publish is to set up a whole new thingy on the web or issue a pull request, the risk is exceedingly low.
 
 ## TODOs
 - Some kind of routing in the interface so you can get back to pages. Right now it's just a stub.
@@ -92,8 +107,3 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - Live editing! Very simple because the parser is all JavaScript. Text on the left, live results on the right.
 - Many more fun calculators made of text.
 - IDK, HTML. Or citations so that we know where the math is coming from.
-
-## Could this be used for evil?
-- Yes, if people used it to "prove" things that are nonsense, like a Eugenics calculator about improving the genetic stock of humanity, or a calculator that proved that a certain percentage of humans must be turned into food.
-- C.f. also "How to Lie with Statistics."
-- I'll consider those risks as I do more. Since the only way to publish is to set up a whole new thingy or issue a pull request, the risk is exceedingly low.
