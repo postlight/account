@@ -1,0 +1,53 @@
+import React, {useState} from 'react';
+import HamburgerMenu from 'react-hamburger-menu';
+import './Nav.css';
+import { Link} from 'react-router-dom';
+
+
+function Nav(props) {
+    const [hamburgerOpen, setHamburgerOpen] = useState(false);
+    
+    function makeLink(k,i) {
+	return <div className="navEl" key={i}>
+		   <Link to={'/'+k}
+			 onClick={() => {
+			     setHamburgerOpen(false)}}	
+			 className="navEl"
+		   >{k}</Link>
+	       </div>
+    }
+    
+    return <>
+	       <div className="burger">
+		   <HamburgerMenu
+		       isOpen={hamburgerOpen}
+		       menuClicked={()=>
+			   setHamburgerOpen(
+			       hamburgerOpen
+				   ? false
+				   : true)}
+		       width={80}
+		       height={50}
+		       strokeWidth={3}
+		       rotate={45}
+		       animationDuration={0.2}
+		       className="burger"
+		       color="slategray"/>
+	       </div>
+	       <div id="nav"
+		    
+		    key="nav"
+		    className={'hamburger-'+hamburgerOpen}>
+		   {[Object.keys(props.textVars).map(makeLink)]}
+		   <div id="footer">
+		       <p>A <a href="https://postlight.com/labs">Postlight Labs Mini-labs Weekend project</a> by <a href="https://twitter.com/ftrain">Paul Ford</a>.</p>
+
+		       <p><a href="https://github.com/postlight/account">Get the code</a>, it's open source.</p>
+		   </div>
+	       </div>
+
+	   </>
+
+}
+
+export default Nav;

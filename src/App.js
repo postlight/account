@@ -1,12 +1,16 @@
 import 'util';
 import parse from './smarter-text';
-import React, {useState} from 'react';
-import HamburgerMenu from 'react-hamburger-menu';
+import React from 'react';
+import { useParams } from 'react-router-dom';
+
 import './App.css';
 import Section from './Section';
-import { useParams, Link} from 'react-router-dom';
+import Nav from './Nav';
 
-// Boilerplate for hacking in a webpack loader
+// ########################################
+// Loading text files via Webpack into a hash
+// ########################################
+
 const webpackTextLoader = require.context(
     '!raw-loader!./texts', false, /\.txt$/);
 
@@ -29,56 +33,18 @@ const textVars = textFiles.reduce(
 		[cleanFSInfo(t.filename)]: parse(t.text)}),
     {});
 
+
+
 function App(props) {
     let { page } = useParams();
-    const [hamburgerOpen, setHamburgerOpen] = useState(false);
-
-    function makeLink(k,i) {
-	return <div className="navEl" key={i}>
-		   <Link to={'/'+k}
-			 onClick={() => {
-			     setHamburgerOpen(false)}}	
-		      className="navEl"
-		   >{k}</Link>
-	       </div>
-    }
-
     const [ast, astState] = textVars[page];
-    
     return <div className="App">
-	       <div className="burger">
-		   <HamburgerMenu
-		       isOpen={hamburgerOpen}
-		       menuClicked={()=>
-			   setHamburgerOpen(
-			       hamburgerOpen
-				   ? false
-				   : true)}
-		       width={80}
-		       height={50}
-		       strokeWidth={3}
-		       rotate={45}
-		       animationDuration={0.2}
-		       className="burger"
-		       color="slategray"/>
-	       </div>
-	       <div id="nav"
-		    key="nav"
-		    className={'hamburger-'+hamburgerOpen}>
-		   {[Object.keys(textVars).map(makeLink)]}
-		   <div id="footer">
-		       <p>A <a href="https://postlight.com/labs">Postlight Labs Mini-labs Weekend project</a> by <a href="https://twitter.com/ftrain">Paul Ford</a>.</p>
-
-		       <p><a href="https://github.com/postlight/account">Get the code</a>, it's open source.</p>
-		   </div>
-	       </div>
+	       <Nav textVars={textVars}/>
     	       <Section
 		   ast={ast}
 		   astState={astState}
 		   page={page}/>
-
 	   </div>;
-    
 }
 
 export default App;

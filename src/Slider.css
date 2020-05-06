@@ -1,1 +1,23 @@
+.statement {
+    text-decoration:underline;
+}
+
+.full-statement {
+    white-space:nowrap; 
+}
+
+
+#inputs {
+    margin:4em 25% 2em 1em;    
+    left:0px;
+    top:0px;
+    position:fixed;
+}
+
+input[type=range] {
+    width:6em;
+    display:inline;
+    padding:0;
+    margin:0 0.5em 0 0.5em;
+}
 
