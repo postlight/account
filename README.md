@@ -1,20 +1,22 @@
 # Account: A tiny tool for accounts that account!
 
+![An image of a screenshot with text and sliders intermixed. One might surmise by looking at this screenshot that when you move the sliders, the numbers in the text would change, and that this would be the entire point of this effort.](./doc/screenshot.png)
+
 ## What is this?
 
-It parses a tiny markup format and makes interactive web content with sliders. When you change a value in one slider it may change lots of other values.
+It's a tool for making short accounts, which are accounts that account for themselves using accounting.
 
-I made it because I make a lot of little spreadsheets to work out how things work, and it's hard to share them and make them comprehensible.
+In less annoying terms, it parses a tiny markup format and makes interactive web content with sliders. When you change a value in one slider it may change lots of other values.
 
-Plus it was a fun two-weekend project while we're all at home.
+My name is [Paul Ford](https://github.com/ftrain/) and I made it because I make a lot of little spreadsheets to work out how things work, and it's hard to share them and make them comprehensible. Plus it was a fun two-weekend project while we're all at home.
 
 ## Why wouldn't I use Tangle/Idyll/Smalltalk-80/Excel
 
-You should absolutely use those. Those are tools for smart people who like code. This is a tool for dumb people who like to move sliders around, like me.
+You should absolutely use those. They are much better. [Tangle](http://worrydream.com/Tangle/), [Idyll](https://idyll-lang.org/), [Smalltalk-80](https://pharo.org/), or a [spreadsheet](https://en.wikipedia.org/wiki/VisiCalc) are tools for smart people who like code, or spreadsheet people who like numbers. Account is a tool for dumb people who like to move sliders around, like me.
 
 ## How do I edit the text?
 
-You don't yet, you have to pull this and make your own. I'm releasing early.
+You don't yet, you have to pull this repository and make your own. I'm releasing early. Pull requests welcome.
 
 ## Sample text
 ```
@@ -37,12 +39,11 @@ within a decade. :+1:
 ```
 
 ## What it does
-* Reads a text file.
-* Allows simple text with no special formatting.
+* Reads a text file, and by text I mean text.
 * Respects emojis between ```:``` colons like ```:+1:```.
 * Respects two special bracketing formats:
    1. ```{[number or range]:[variable name]}```
-   2. ```{=equation:[variable name]}```
+   2. ```{=[expression]:[variable name]}```
 
 So:
 
@@ -55,9 +56,7 @@ Yields:
 - (Where ```===[-]===``` is a range slider in HTML.) And when you move the slider around the numbers change. Whoo hoo!
 - Numbers are just numbers, and can be negative (currently only on the lefthand-side, sorry!) or have decimal points.
 - If you use a dollar sign ala ```${100:dollars}``` it will try to format things intelligently.
-- It'll try to keep the number of decimal points steady, i.e. if you type ```{0.00-100.00:rating}``` it'll format the output to the hundredth after the decimal.
-
-- Most of that stuff is hacky, YMMV.
+- It'll try to keep the number of decimal points steady, i.e. if you type ```{0.00-100.00:rating}``` it'll format the output to the hundredth after the decimal. (Most of that stuff is hacky, YMMV.)
 
 ## Under the hood
 
@@ -68,7 +67,7 @@ The thing that does the math is [expr-eval](https://github.com/silentmatt/expr-e
 - You need to declare variables in the order you expect them to be evaluated; i.e. you can't declare ```x``` at the bottom of your document and expect ```x``` to be available at the top.
 
 ### Parsing
-The text is parsed by [parsimmon](https://github.com/jneen/parsimmon), which was fun to learn.
+The text is parsed by [parsimmon](https://github.com/jneen/parsimmon), which was fun to learn, once I gave up on regular expressions and just accepted that I could concat unmatched text after parse.
 
 ### Formatting
 
@@ -84,3 +83,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - A way to edit in the browser and save somehow or other. Since it's just ASCII maybe it could be hacked to just save into some simple CMS. It'd be fine except for then needing to set up a password recovery module. Maybe I'll use some auth service like a young person.
 - Live editing! Very simple because the parser is all JavaScript. Text on the left, live results on the right.
 - Many more fun calculators made of text.
+- IDK, HTML. Or citations so that we know where the math is coming from.
+
+## Could this be used for evil?
+- Yes, if people used it to "prove" things that are nonsense, like a Eugenics calculator about improving the genetic stock of humanity, or a calculator that proved that a certain percentage of humans must be turned into food.
+- C.f. also "How to Lie with Statistics."
+- But since the only way to publish is to set up a whole new thingy or issue a pull request, the risk is preeeety low. 
