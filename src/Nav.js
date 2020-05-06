@@ -35,10 +35,11 @@ function Nav(props) {
 		       color="slategray"/>
 	       </div>
 	       <div id="nav"
-		    
 		    key="nav"
 		    className={'hamburger-'+hamburgerOpen}>
-		   {[Object.keys(props.textVars).map(makeLink)]}
+		   <div id="inner-nav">
+		       {[Object.keys(props.textVars).map(makeLink)]}
+		   </div>
 		   <div id="footer">
 		       <p>A <a href="https://postlight.com/labs">Postlight Labs Mini-labs Weekend project</a> by <a href="https://twitter.com/ftrain">Paul Ford</a>.</p>
 

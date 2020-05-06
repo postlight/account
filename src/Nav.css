@@ -14,12 +14,12 @@
     top:55px;
     left:0;
     right:100px;
-    padding:1em 0 0 2.5em;
+    padding:1em 0 0 2em;
     left:-120%;
     transition:left 0.2s;
     overflow-y:scroll;
-    border:1px solid red;
 }
+
 div#nav.hamburger-true {
     visibility:visible;
     left:0;
@@ -29,17 +29,22 @@ div#nav.hamburger-false {
 
     visibility:none;
 }
+
+#inner-nav {
+    height:60%;
+    overflow-y:scroll; 
+    
+}
 #nav a {
     color:white;
 }
 
-
 #footer {
     font-size:12pt;
     line-height:1.25em;
-    width:100px;
-    bottom:0px;
-    position:fixed;
-    right:50px;
+    width:200px;
+    bottom:5em;
+    position:absolute;
+    right:70px;
     background:slategray;
 }
