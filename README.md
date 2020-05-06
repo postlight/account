@@ -52,9 +52,9 @@ Notice that newlines don't really matter. They're not real and they can't hurt y
 
 ## What it does
 
-* Reads a text file, and by text I mean text.
-* Respects emojis between ```:``` colons like ```:+1:```.
-* Respects two special bracketing formats:
+- Reads a text file, and by text I mean text.
+- Respects emojis between ```:``` colons like ```:+1:```.
+- Respects two special bracketing formats:
    1. ```{[single number or range]:[variable name]}```
    2. ```{=[expression]:[variable name]}```
 
@@ -99,7 +99,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Could this be used for evil?
 - Yes, if people used it to "prove" things that are nonsense, like a Eugenics calculator about improving the genetic stock of humanity, or a calculator that proved that a certain percentage of humans must be turned into food.
 - C.f. also "How to Lie with Statistics."
-  - I'll consider those risks as time passes. Since the only way to publish is to set up a whole new thingy on the web or issue a pull request, the risk is exceedingly low.
+- I'll consider those risks as time passes. Since the only way to publish is to set up a whole new thingy on the web or issue a pull request, the risk is exceedingly low.
 
 ## TODOs
 - Some kind of routing in the interface so you can get back to pages. Right now it's just a stub.
