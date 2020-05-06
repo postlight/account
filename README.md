@@ -1,5 +1,7 @@
 # Account: A tiny tool for accounts that account!
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/0ccc4ad6-ff9f-472a-b1e8-41dd333a6c02/deploy-status)](https://app.netlify.com/sites/account-account/deploys)
+
 Account is a markup format for making web pages like this:
 
 ![An image of a screenshot with text and sliders intermixed. One might reasonably surmise by looking at this screenshot that when you move the sliders, the numbers in the text would change, and that this would be the entire point of this effort.](./doc/screenshot.png)
