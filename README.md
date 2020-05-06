@@ -16,7 +16,7 @@ In less annoying terms, it parses a tiny markup format and makes interactive web
 
 My name is [Paul Ford](https://github.com/ftrain/) and I made it because I make a lot of little spreadsheets to work out how things work, and it's hard to share them and make them comprehensible. Plus it was a fun two-weekend project while we're all at home.
 
-Now that I've made it I will return to it when 
+Now that I've made it I will return to it when I want to use it.
 
 ## Why wouldn't I use Tangle/Idyll/Smalltalk-80/Excel?
 
@@ -50,7 +50,7 @@ within a decade. :+1:
 
 That's the formula for compound interest I got off some website. I'm sure I screwed something up. Pull requests welcomed.
 
-Notice that newlines don't really matter. They're not real and they can't hurt you. If you want to include spacing between lines you can't. Paragraph spacing was a wasteful orthographic indulgence by lazy monks and we don't allow it here.
+Notice that newlines don't really matter. They're not real and they can't hurt you. If you want to include spacing between lines you can't. Paragraphs were a wasteful orthographic indulgence by lazy monks and we don't allow them here.
 
 ## What it does
 
@@ -97,17 +97,20 @@ Note as well the very fine [React Hamburger Menu](https://www.npmjs.com/package/
 ## Code Notes
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It has yet to be ejected. 
 
-
 ## Could this be used for evil?
 - Yes, if people used it to "prove" things that are nonsense, like a Eugenics calculator about improving the genetic stock of humanity, or a calculator that proved that a certain percentage of humans must be turned into food.
 - C.f. also "How to Lie with Statistics."
-- I'll consider those risks as time passes. Since the only way to publish is to set up a whole new thingy on the web or issue a pull request, the risk is exceedingly low.
+- I'll consider those risks as time passes. Since the only way to publish is to set up a whole new thingy on the web and deploy it, or to issue a pull request, the risk of malice is low.
+- The risk of incompetence is extremely high as always.
 
 ## TODOs
-- Some kind of routing in the interface so you can get back to pages. Right now it's just a stub.
-- Some sort of array generator so that you can do sigmas via the ```fold``` inside of the ```expr-eval``` math functions. Maybe you have something like ```{#48:months}``` and that knows to generate an array from ```[n..48]``` that you can then use in sigma functions to calculate IRR or what-have-you.
-- A charting module, given the above; if I know I'm over 48 months then anyting that interacts with months returns an array, I should be able to drop a chart in there.
-- A way to edit in the browser and save somehow or other. Since it's just ASCII maybe it could be hacked to just save into some simple CMS. It'd be fine except for then needing to set up a password recovery module. Maybe I'll use some auth service like a young person.
-- Live editing! Very simple because the parser is all JavaScript. Text on the left, live results on the right.
-- Many more fun calculators made of text.
-- IDK, HTML. Or citations so that we know where the math is coming from.
+- Math
+  - Some sort of array generator so that you can do sigmas via the ```fold``` inside of the ```expr-eval``` math functions. Maybe you have something like ```{#48:months}``` and that knows to generate an array from ```[n..48]``` that you can then use in sigma functions to calculate IRR or what-have-you.
+- Interface
+  - A charting module, given the above; if I know I'm over 48 months then anyting that interacts with months returns an array, I should be able to drop a chart in there.
+  - A way to edit in the browser and save somehow or other. Since it's just ASCII maybe it could be hacked to just save into some simple CMS. It'd be fine except for then needing to set up accounts, and moderate, and do all the other things. Maybe it could just pull live from a Gist. Maybe I'll use some auth service like a young person.
+  - Live editing! Very simple because the parser is all JavaScript. Text on the left, live results on the right.
+- Content
+  - Many more fun calculators made of text.
+  - The ability to inline HTML. 
+  - Citations so that we know where the math is coming from.
