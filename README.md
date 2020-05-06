@@ -1,8 +1,11 @@
 # Account: A tiny tool for accounts that account!
 
-![An image of a screenshot with text and sliders intermixed. One might surmise by looking at this screenshot that when you move the sliders, the numbers in the text would change, and that this would be the entire point of this effort.](./doc/screenshot.png)
+Account is a markup format for making web pages like this:
+
+![An image of a screenshot with text and sliders intermixed. One might reasonably surmise by looking at this screenshot that when you move the sliders, the numbers in the text would change, and that this would be the entire point of this effort.](./doc/screenshot.png)
 
 ## What is this?
+
 
 It's a tool for making short accounts, which are accounts that account for themselves using accounting.
 
@@ -10,15 +13,19 @@ In less annoying terms, it parses a tiny markup format and makes interactive web
 
 My name is [Paul Ford](https://github.com/ftrain/) and I made it because I make a lot of little spreadsheets to work out how things work, and it's hard to share them and make them comprehensible. Plus it was a fun two-weekend project while we're all at home.
 
+Now that I've made it I will return to it when 
+
 ## Why wouldn't I use Tangle/Idyll/Smalltalk-80/Excel
 
-You should absolutely use those. They are much better. [Tangle](http://worrydream.com/Tangle/), [Idyll](https://idyll-lang.org/), [Smalltalk-80](https://pharo.org/), or a [spreadsheet](https://en.wikipedia.org/wiki/VisiCalc) are tools for smart people who like code, or spreadsheet people who like numbers. Account is a tool for dumb people who like to move sliders around, like me.
+You should use those, they do more and are better. [Tangle](http://worrydream.com/Tangle/), [Idyll](https://idyll-lang.org/), [Smalltalk-80](https://pharo.org/), or a [spreadsheet](https://en.wikipedia.org/wiki/VisiCalc) are tools for smart people who like code, or spreadsheet people who like numbers. Account is a tool for dumb people who like moving sliders around so they can watch the numbers go, like me.
 
 ## How do I edit the text?
 
 You don't yet, you have to pull this repository and make your own. I'm releasing early. Pull requests welcome.
 
 ## Sample text
+To make the page shown in the screenshot above, you'd write:
+
 ```
 :cup_with_straw: You drink
 {0-4:sodas_daily} 
@@ -29,14 +36,15 @@ Coke.
 If you'd put that into an index 
 fund with a {-10.00-12.00:return}% 
 annual rate of return, you'd have 
-${=((((sodas_daily * 365) 
-* soda_cost) / 12) * 
+${=((((sodas_daily * 365) * soda_cost) / 12) * 
 (((1 + ((return/100)/12)) ^ 120) - 1) 
 / ((return/100)/12)):total} 
 
 within a decade. :+1:
 
 ```
+
+Notice that newlines don't really matter. They're not real and they can't hurt you. If you want to include spacing between lines you can't. Paragraph spacing was a wasteful orthographic indulgence by lazy monks and we don't allow it here.
 
 ## What it does
 * Reads a text file, and by text I mean text.
@@ -88,4 +96,4 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Could this be used for evil?
 - Yes, if people used it to "prove" things that are nonsense, like a Eugenics calculator about improving the genetic stock of humanity, or a calculator that proved that a certain percentage of humans must be turned into food.
 - C.f. also "How to Lie with Statistics."
-- But since the only way to publish is to set up a whole new thingy or issue a pull request, the risk is preeeety low. 
+- I'll consider those risks as I do more. Since the only way to publish is to set up a whole new thingy or issue a pull request, the risk is exceedingly low.
