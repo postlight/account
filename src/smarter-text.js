@@ -1,10 +1,9 @@
 const P = require("parsimmon");
 
 // const nerdamer = require('nerdamer/all');
-var ExpressionParser = require('expr-eval').Parser;
+var ExpressionParser = require("expr-eval").Parser;
 var Exp = new ExpressionParser();
-const numeral = require('numeral');
-
+const numeral = require("numeral");
 
 /*
 
@@ -36,169 +35,146 @@ let ast = docParser.Doc.tryParse(text);
 
 */
 
-
 const makeStatement = function (parseResult, kind) {
-    const [value,variable] = parseResult;
-    return {
-	type:"statement",
-	format:kind,
-	value:value,
-	variable:variable
-    };
-}
+  const [value, variable] = parseResult;
+  return {
+    type: "statement",
+    format: kind,
+    value: value,
+    variable: variable,
+  };
+};
 
 function explainDecimal(d) {
-    const adjustedFormatString = d.replace(/\d/g, '0');
-    const formatString = adjustedFormatString.match(/^0+$/) ? '0,0' : adjustedFormatString;
+  const adjustedFormatString = d.replace(/\d/g, "0");
+  const formatString = adjustedFormatString.match(/^0+$/)
+    ? "0,0"
+    : adjustedFormatString;
 
-	return {value:numeral(d).value(),
-		formatString:formatString};
+  return { value: numeral(d).value(), formatString: formatString };
 }
 
 // Same as above, but we don't know value yet
 function makeExpression(parseResult, kind) {
-    const [expression, variable] = parseResult;
-    return {
-	type:"expression",
-	format:kind,
-	expression:expression,
-	value:undefined,
-	variable:variable,
-	eval:(state)=>Exp.evaluate(expression, state)
-    };
+  const [expression, variable] = parseResult;
+  return {
+    type: "expression",
+    format: kind,
+    expression: expression,
+    value: undefined,
+    variable: variable,
+    eval: (state) => Exp.evaluate(expression, state),
+  };
 }
 
 function makeRange(parseResult) {
-    const x = parseResult;
+  const x = parseResult;
 
-    if (x.length > 1) {
-	return {
-	    formatString:x[0].formatString,
-	    min:x[0].value,
-	    max:x[1].value,
-	    value:( x[1].value - x[0].value )/2 }
-    }
-    else {
-	return {
-	    formatString:x[0].formatString,
-	    min:0,
-	    max:x[0].value * 2,
-	    value:x[0].value }		
-    }
+  if (x.length > 1) {
+    return {
+      formatString: x[0].formatString,
+      min: x[0].value,
+      max: x[1].value,
+      value: (x[1].value - x[0].value) / 2,
+    };
+  } else {
+    return {
+      formatString: x[0].formatString,
+      min: 0,
+      max: x[0].value * 2,
+      value: x[0].value,
+    };
+  }
 }
 const docParser = P.createLanguage({
+  // The .many() is important -- we're parsing into an array of any
+  // sequence of these Parser matches. The parser isn't expecting
+  // that; it wants hierarchy. Without that, the parser fails and
+  // says (most often) that it was expecting EOF.
 
-    // The .many() is important -- we're parsing into an array of any
-    // sequence of these Parser matches. The parser isn't expecting
-    // that; it wants hierarchy. Without that, the parser fails and
-    // says (most often) that it was expecting EOF.
+  Doc: (r) => P.alt(r.DecimalExpression, r.Statement, r.Text).many(),
 
-    Doc: r => P.alt(
-	r.DecimalExpression,
-	r.Statement,
-	r.Text)
-    	.many(),
+  Statement: (r) =>
+    P.alt(r.DollarStatement, r.PercentageStatement, r.DecimalStatement),
 
-    Statement: r => P.alt(
-	r.DollarStatement,
-	r.PercentageStatement,	
-	r.DecimalStatement),
+  PlainStatement: (r) => P.string("{").then(r.Pair).skip(P.string("}")),
 
-    PlainStatement: r => P.string("{")
-	.then(r.Pair)
-	.skip(P.string("}")),
+  DecimalStatement: (r) =>
+    r.PlainStatement.map((x) => makeStatement(x, "decimal")),
 
-    DecimalStatement: r => r.PlainStatement
-	.map(x=>makeStatement(x,'decimal')),				   
-    
-    DollarStatement: r => P.string("$")
-	.then(r.PlainStatement)
-	.map(x=>makeStatement(x,'dollar')),
-    
-    PercentageStatement: r => r.PlainStatement
-	.skip(P.string("%"))
-	.map(x=>makeStatement(x,'percentage')),
-    
-    DollarExpression: r=> P.seq(
-	P.string("$"),
-	r.DecimalExpression)
-	.map(x=>makeExpression(x,'dollar')),
-    
-    PercentageExpression: r=> P.seq(
-	r.DecimalExpression,
-	P.string("%"))
-	.map(x=>makeExpression(x,'percentage')),
-    
-    DecimalExpression: r => r.PlainExpression
-	.map(x=>makeExpression(x,'decimal')),    
+  DollarStatement: (r) =>
+    P.string("$")
+      .then(r.PlainStatement)
+      .map((x) => makeStatement(x, "dollar")),
 
-    PlainExpression: r => P.string("{=")
-	.then(r.MathPair)
-	.skip(P.string("}")),
-    
-    Pair: r=> P.seq(
-	r.Range
-	    .skip(P.string(":")),
-	r.Variable),
-    
-    MathPair: r=> P.seq(
-	r.Math.skip(P.string(":")),
-	r.Variable),
-    
-    Range: r=> P.sepBy1(
-	r.Decimal,
-	P.string("-"))
-	.map(makeRange),
+  PercentageStatement: (r) =>
+    r.PlainStatement.skip(P.string("%")).map((x) =>
+      makeStatement(x, "percentage")
+    ),
 
-    Variable: r=>P.regexp(/[a-z_]+/),
+  DollarExpression: (r) =>
+    P.seq(P.string("$"), r.DecimalExpression).map((x) =>
+      makeExpression(x, "dollar")
+    ),
 
-    Math: r => P.regexp(/[^:]+/),
+  PercentageExpression: (r) =>
+    P.seq(r.DecimalExpression, P.string("%")).map((x) =>
+      makeExpression(x, "percentage")
+    ),
 
-    Decimal: r=> P.regexp(/[+-]?[0-9.]+/)
-	.map(explainDecimal),
-    
-    Text: r=> P.alt(
-	P.any,
-	P.whitespace)
-	.map(x=>({type:'text', value:x}))
+  DecimalExpression: (r) =>
+    r.PlainExpression.map((x) => makeExpression(x, "decimal")),
+
+  PlainExpression: (r) => P.string("{=").then(r.MathPair).skip(P.string("}")),
+
+  Pair: (r) => P.seq(r.Range.skip(P.string(":")), r.Variable),
+
+  MathPair: (r) => P.seq(r.Math.skip(P.string(":")), r.Variable),
+
+  Range: (r) => P.sepBy1(r.Decimal, P.string("-")).map(makeRange),
+
+  Variable: (r) => P.regexp(/[a-z_]+/),
+
+  Math: (r) => P.regexp(/[^:]+/),
+
+  Decimal: (r) => P.regexp(/[+-]?[0-9.]+/).map(explainDecimal),
+
+  Text: (r) =>
+    P.alt(P.any, P.whitespace).map((x) => ({ type: "text", value: x })),
 });
 
 function parse(text) {
+  const ast = docParser.Doc.tryParse(text);
 
-    const ast = docParser.Doc.tryParse(text);
-    
-    const concatted = ast.reduce((arr,el,i) => {
-	if (el.type==="text") {
-	    const pos = arr.length - 1;
-	    if (arr[pos] && arr[pos].type==="text") {
-		arr[pos].value = arr[pos].value + el.value;
-		return arr;		
-	    }
-	    else {
-		return arr.concat(el);
-	    }
-	}
-	return arr.concat(el);
-    }, []);
+  const concatted = ast.reduce((arr, el, i) => {
+    if (el.type === "text") {
+      const pos = arr.length - 1;
+      if (arr[pos] && arr[pos].type === "text") {
+        arr[pos].value = arr[pos].value + el.value;
+        return arr;
+      } else {
+        return arr.concat(el);
+      }
+    }
+    return arr.concat(el);
+  }, []);
 
-    let state = concatted.reduce(function(obj,value){
-	if (value.type==="statement") {
-	    Object.assign(obj, {[value.variable]:value.value.value});
-	}
-	else if (value.type==="expression") {
-	    Object.assign(obj, {[value.variable]:value.value});
-	}
-	return obj;
-    }, {});
+  let state = concatted.reduce(function (obj, value) {
+    if (value.type === "statement") {
+      Object.assign(obj, { [value.variable]: value.value.value });
+    } else if (value.type === "expression") {
+      Object.assign(obj, { [value.variable]: value.value });
+    }
+    return obj;
+  }, {});
 
-    const mathed = concatted.filter(o=>o.type==='expression');
-    mathed.map(el=>{
-	state[el.variable]=el.eval(state);
-	return true;
-    })
-    return [concatted, state];
+  const mathed = concatted.filter((o) => o.type === "expression");
+  mathed.map((el) => {
+    state[el.variable] = el.eval(state);
+    return true;
+  });
+  return [concatted, state];
 }
-
 
 // var fs = require("fs");
 // var text = fs.readFileSync("./texts/advertising.txt").toString();
