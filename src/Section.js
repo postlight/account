@@ -1,7 +1,7 @@
 import "util";
 import numeral from "numeral";
 import useSearchParams from "@postlight/use-search-params";
-import React from "react";
+import React, { useMemo } from "react";
 import Slider from "./Slider";
 import Statement from "./Statement";
 import Text from "./Text";
@@ -11,19 +11,16 @@ import "./Section.css";
 function Section(props) {
   const { ast, astState } = props;
   const searchParams = useSearchParams("replace");
+  const state = useMemo(readFields, [astState, searchParams]);
 
   function addField(k, v) {
     searchParams.set(k, v);
     return v;
   }
 
-  function readField(k) {
-    return searchParams.get(k) || astState[k];
-  }
-
   function readFields() {
     return Object.fromEntries(
-      Object.keys(astState).map((k) => [k, readField(k)])
+      Object.keys(astState).map((k) => [k, searchParams.get(k) || astState[k]])
     );
   }
 
@@ -38,11 +35,11 @@ function Section(props) {
             <Slider
               key={o.variable}
               addField={addField}
-              valueFromState={readField(o.variable)}
+              valueFromState={state[o.variable]}
               i={i}
               {...o}
             />
-            <Statement valueFromState={readField(o.variable)} i={i} {...o} />
+            <Statement valueFromState={state[o.variable]} i={i} {...o} />
           </span>
         );
 
@@ -55,13 +52,9 @@ function Section(props) {
           return num.format("-0,0");
         }
 
-        function calc(o) {
-          return o.eval(readFields());
-        }
-
         return (
           <span className="expression" key={i}>
-            {f(calc(o))}
+            {f(o.eval(state))}
           </span>
         );
 
