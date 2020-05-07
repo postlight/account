@@ -4,7 +4,7 @@
 
 Account is a markup format for making web pages like this:
 
-![An animated gif of a demo of this code.](./doc/soda-demo.gif)
+![An animated gif of a demo of this code.](./doc/soda-demo-cropped.gif)
 
 [Here is a live demo so you can see it working.](https://account-account.netlify.app/)
 
