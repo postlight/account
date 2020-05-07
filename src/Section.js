@@ -18,9 +18,16 @@ function Section(props) {
     return v;
   }
 
+  function readField(k) {
+    return searchParams.get(k) || props.astState[k];
+  }
+
   function readFields() {
     return Object.fromEntries(
-      Object.keys(astState).map((k) => [k, searchParams.get(k) || astState[k]])
+      Object.entries(astState).map(([name, defaultValue]) => {
+        const value = +searchParams.get(name);
+        return [name, Number.isNaN(value) ? defaultValue : value];
+      })
     );
   }
 
@@ -50,6 +57,15 @@ function Section(props) {
             return num.format("0.00");
           }
           return num.format("-0,0");
+        }
+
+        function calc(o) {
+          const state = readFields();
+          const result = o.eval(state);
+          if (result !== state[o.variable] && !isNaN(result)) {
+            addField(o.variable, result);
+          }
+          return result;
         }
 
         return (
