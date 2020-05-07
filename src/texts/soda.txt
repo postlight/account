@@ -1,2 +1,4 @@
-:cup_with_straw: You drink {1-4:sodas_daily} Diet Cokes per day, at a cost of ${0.00-3.50:soda_cost} per Diet Coke. If you'd put that into a fund with a {8.00:return}% annual rate of return, you'd have ${=((((sodas_daily * 365) * soda_cost) / 12) * (((1 + ((return/100)/12)) ^ 120) - 1) / ((return/100)/12)):total} within a decade. :+1:
+:cup_with_straw: You drink {1-4:sodas_daily} Diet Cokes per day, at a cost of ${0.00-3.50:soda_cost} per Diet Coke. (${=sodas_daily * soda_cost * 365.25/12:monthly} a month). If you'd put that into a fund with a {6.00:rate}% annual rate, you'd have ${=(monthly * (1 + rate/100/12)^120) + (monthly * (((1 + rate/100/12)^120) - 1) / (rate/100/12)):total} in a decade.
+
+
 
