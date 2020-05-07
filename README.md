@@ -4,7 +4,7 @@
 
 Account is a markup format for making web pages like this:
 
-![An image of a screenshot with text and sliders intermixed. One might reasonably surmise by looking at this screenshot that when you move the sliders, the numbers in the text would change, and that this would be the entire point of this effort.](./doc/screenshot.png)
+![An image of a screenshot with text and sliders intermixed. One might reasonably surmise by looking at this screenshot that when you move the sliders, the numbers in the text would change, and that this would be the entire point of this effort.](./doc/soda-screenshot.png)
 
 [Here is a live demo so you can see it working.](https://account-account.netlify.app/)
 
