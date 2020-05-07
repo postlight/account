@@ -18,15 +18,12 @@ function Section(props) {
   }
 
   function readField(k) {
-    return searchParams.get(k) || props.astState[k];
+    return searchParams.get(k) || astState[k];
   }
 
   function readFields() {
     return Object.fromEntries(
-      Object.entries(astState).map(([name, defaultValue]) => {
-        const value = +searchParams.get(name);
-        return [name, Number.isNaN(value) ? defaultValue : value];
-      })
+      Object.keys(astState).map((k) => [k, readField(k)])
     );
   }
 
@@ -59,12 +56,7 @@ function Section(props) {
         }
 
         function calc(o) {
-          const state = readFields();
-          const result = o.eval(state);
-          if (result !== state[o.variable] && !isNaN(result)) {
-            addField(o.variable, result);
-          }
-          return result;
+          return o.eval(readFields());
         }
 
         return (
