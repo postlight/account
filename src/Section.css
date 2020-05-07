@@ -10,3 +10,7 @@ h1 {
     padding:0.25em 2em 0 2em;
     color:#444;
 }
+
+.negative {
+    color:red;
+}
