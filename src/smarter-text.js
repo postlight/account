@@ -1,8 +1,6 @@
 const P = require("parsimmon");
-
-// const nerdamer = require('nerdamer/all');
-var ExpressionParser = require("expr-eval").Parser;
-var Exp = new ExpressionParser();
+const ExpressionParser = require("expr-eval").Parser;
+const Exp = new ExpressionParser();
 const numeral = require("numeral");
 
 /*
@@ -15,7 +13,7 @@ expr-eval.
 
 let text = "If you had {10:apples_owned} and you gave me {0-10:apples_given}, you would have {=apples_owned - apples_given:apples_left}.";
 
-let ast = docParser.Doc.tryParse(text);
+let ast = docParser.Doc.tryParse(Text);
 
 // Which would give you ast back as...
 [
