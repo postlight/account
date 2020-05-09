@@ -53,6 +53,7 @@ function explainDecimal(d) {
 }
 
 // Same as above, but we don't know value yet
+
 function makeExpression(parseResult, kind) {
   const [expression, variable] = parseResult;
   return {
@@ -90,7 +91,11 @@ const docParser = P.createLanguage({
   // that; it wants hierarchy. Without that, the parser fails and
   // says (most often) that it was expecting EOF.
 
-  Doc: (r) => P.alt(r.DecimalExpression, r.Statement, r.Text).many(),
+    Doc: (r) => P.alt(r.DecimalExpression,
+		      r.ChartExpression,
+		      r.Statement,
+		      r.Paragraph,
+		      r.Text).many(),
 
   Statement: (r) =>
     P.alt(r.DollarStatement, r.PercentageStatement, r.DecimalStatement),
@@ -115,29 +120,35 @@ const docParser = P.createLanguage({
       makeExpression(x, "dollar")
     ),
 
-  PercentageExpression: (r) =>
+    PercentageExpression: (r) =>
     P.seq(r.DecimalExpression, P.string("%")).map((x) =>
       makeExpression(x, "percentage")
     ),
 
-  DecimalExpression: (r) =>
-    r.PlainExpression.map((x) => makeExpression(x, "decimal")),
+    DecimalExpression: (r) => r.PlainExpression.map((x) => makeExpression(x, "decimal")),
 
-  PlainExpression: (r) => P.string("{=").then(r.MathPair).skip(P.string("}")),
+    PlainExpression: (r) => P.string("{=").then(r.MathPair).skip(P.string("}")),
+    
+    ChartExpression: (r) => P.string("{#").then(r.ChartPair).skip(P.string("}")).map(x=>({type:"chart", y:x[0], x:x[1]})),
+    
+    Pair: (r) => P.seq(r.Range.skip(P.string(":")), r.Variable),
+    
+    MathPair: (r) => P.seq(r.Math.skip(P.string(":")), r.Variable),
+    
+    Range: (r) => P.sepBy1(r.Decimal, P.string("-")).map(makeRange),
 
-  Pair: (r) => P.seq(r.Range.skip(P.string(":")), r.Variable),
-
-  MathPair: (r) => P.seq(r.Math.skip(P.string(":")), r.Variable),
-
-  Range: (r) => P.sepBy1(r.Decimal, P.string("-")).map(makeRange),
-
-  Variable: (r) => P.regexp(/[a-z_]+/),
-
-  Math: (r) => P.regexp(/[^:]+/),
-
-  Decimal: (r) => P.regexp(/[+-]?[0-9.]+/).map(explainDecimal),
-
-  Text: (r) =>
+    ChartPair: (r) => P.sepBy1(r.Variable, P.string(" by ")),
+    
+    Variable: (r) => P.regexp(/[a-z_]+/),
+    
+    Math: (r) => P.regexp(/[^:]+/),
+    
+    Decimal: (r) => P.regexp(/[+-]?[0-9.]+/).map(explainDecimal),
+    
+    Paragraph: (r) => P.newline.times(2).map(x=>({type: "paragraph"})),
+    
+    Text: (r) =>
+    
     P.alt(P.any, P.whitespace).map((x) => ({ type: "text", value: x })),
 });
 
@@ -157,6 +168,7 @@ function parse(text) {
     return arr.concat(el);
   }, []);
 
+    
   let state = concatted.reduce(function (obj, value) {
     if (value.type === "statement") {
       Object.assign(obj, { [value.variable]: value.value.value });
@@ -166,12 +178,34 @@ function parse(text) {
     return obj;
   }, {});
 
+
+    let ranges = concatted.reduce(function (obj, value) {
+	let vv = value.value;
+	
+	if (value.type === "statement") {
+	    const ARRAY_SIZE = 10;
+	    let arr = [];
+	    const tick = (vv.max - vv.min)/ARRAY_SIZE;
+	    for (let i = vv.min; i <= vv.max; i = i + tick) {
+		arr.push(i);
+	    }
+	    vv['range'] = arr;
+	    Object.assign(obj, { [value.variable]: vv });
+	}
+	else if (value.type === "expression") {
+	    Object.assign(obj, { [value.variable]: value });
+	}
+	return obj;
+    }, {});
+    
+
   const mathed = concatted.filter((o) => o.type === "expression");
   mathed.map((el) => {
     state[el.variable] = el.eval(state);
     return true;
   });
-  return [concatted, state];
+
+    return [concatted, state, ranges];
 }
 
 // var fs = require("fs");

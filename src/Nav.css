@@ -1,6 +1,7 @@
 .burger {
     margin-left:-10px;
     position:fixed;
+    top:0;
 }
 
 #nav {
@@ -26,7 +27,6 @@ div#nav.hamburger-true {
     transition:left 0.2s;
 }
 div#nav.hamburger-false {
-
     visibility:none;
 }
 
