@@ -1,6 +1,14 @@
 const P = require("parsimmon");
 const ExpressionParser = require("expr-eval").Parser;
+
+
+
+
 const Exp = new ExpressionParser();
+Exp.functions.text = function (txt) {
+    return ""+txt;
+};
+
 const numeral = require("numeral");
 
 /*
@@ -57,7 +65,8 @@ function explainDecimal(d) {
 function makeExpression(parseResult, kind) {
   const [expression, variable] = parseResult;
   return {
-    type: "expression",
+      type:"expression",
+      interactive:kind==="interactive",
     format: kind,
     expression: expression,
     value: undefined,
@@ -91,7 +100,8 @@ const docParser = P.createLanguage({
   // that; it wants hierarchy. Without that, the parser fails and
   // says (most often) that it was expecting EOF.
 
-    Doc: (r) => P.alt(r.DecimalExpression,
+    Doc: (r) => P.alt(r.InteractiveExpression,
+		      r.DecimalExpression,
 		      r.ChartExpression,
 		      r.Statement,
 		      r.Paragraph,
@@ -115,8 +125,7 @@ const docParser = P.createLanguage({
       makeStatement(x, "percentage")
     ),
 
-  DollarExpression: (r) =>
-    P.seq(P.string("$"), r.DecimalExpression).map((x) =>
+    DollarExpression: (r) => P.seq(P.string("$"), r.DecimalExpression).map((x) =>
       makeExpression(x, "dollar")
     ),
 
@@ -125,11 +134,15 @@ const docParser = P.createLanguage({
       makeExpression(x, "percentage")
     ),
 
+    PlainExpression: (r) => P.string("{=").then(r.MathPair).skip(P.string("}")),
+
+
     DecimalExpression: (r) => r.PlainExpression.map((x) => makeExpression(x, "decimal")),
 
-    PlainExpression: (r) => P.string("{=").then(r.MathPair).skip(P.string("}")),
     
     ChartExpression: (r) => P.string("{#").then(r.ChartPair).skip(P.string("}")).map(x=>({type:"chart", y:x[0], x:x[1]})),
+
+    InteractiveExpression: (r) => P.string("{!=").then(r.MathPair).skip(P.string("}")).map((x)=>makeExpression(x, "interactive")),
     
     Pair: (r) => P.seq(r.Range.skip(P.string(":")), r.Variable),
     
@@ -170,11 +183,16 @@ function parse(text) {
 
     
   let state = concatted.reduce(function (obj, value) {
-    if (value.type === "statement") {
-      Object.assign(obj, { [value.variable]: value.value.value });
-    } else if (value.type === "expression") {
-      Object.assign(obj, { [value.variable]: value.value });
-    }
+      if (value.type === "interactive") {
+	  console.log('INTERACTIVE', value);
+	  Object.assign(obj, { [value.variable]: value.value });
+      }
+      else if (value.type === "statement") {
+	  Object.assign(obj, { [value.variable]: value.value.value });
+      }
+      else if (value.type === "expression") {
+	  Object.assign(obj, { [value.variable]: value.value });
+      }
     return obj;
   }, {});
 
@@ -187,9 +205,11 @@ function parse(text) {
 	    let arr = [];
 	    const tick = (vv.max - vv.min)/ARRAY_SIZE;
 	    for (let i = vv.min; i <= vv.max; i = i + tick) {
-		arr.push(i);
+		const j = Math.round(i)
+		arr.push(j);
 	    }
-	    vv['range'] = arr;
+	    arr.sort((a,b)=>a-b);
+	    vv['range'] = arr
 	    Object.assign(obj, { [value.variable]: vv });
 	}
 	else if (value.type === "expression") {
