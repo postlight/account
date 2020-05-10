@@ -37,11 +37,11 @@ const textVars = textFiles.reduce(
 
 function App(props) {
   let { page } = useParams();
-    const [ast, astState, ranges] = textVars[page];
+  const [ast, astState, ranges] = textVars[page];
   return (
     <div className="App">
-	<Section ast={ast} astState={astState} page={page} ranges={ranges}/>
-	<Nav textVars={textVars} />
+      <Section ast={ast} astState={astState} page={page} ranges={ranges} />
+      <Nav textVars={textVars} />
     </div>
   );
 }

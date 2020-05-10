@@ -1,12 +1,9 @@
 const P = require("parsimmon");
 const ExpressionParser = require("expr-eval").Parser;
 
-
-
-
 const Exp = new ExpressionParser();
 Exp.functions.text = function (txt) {
-    return ""+txt;
+  return "" + txt;
 };
 
 const numeral = require("numeral");
@@ -65,8 +62,8 @@ function explainDecimal(d) {
 function makeExpression(parseResult, kind) {
   const [expression, variable] = parseResult;
   return {
-      type:"expression",
-      interactive:kind==="interactive",
+    type: "expression",
+    interactive: kind === "interactive",
     format: kind,
     expression: expression,
     value: undefined,
@@ -100,12 +97,15 @@ const docParser = P.createLanguage({
   // that; it wants hierarchy. Without that, the parser fails and
   // says (most often) that it was expecting EOF.
 
-    Doc: (r) => P.alt(r.InteractiveExpression,
-		      r.DecimalExpression,
-		      r.ChartExpression,
-		      r.Statement,
-		      r.Paragraph,
-		      r.Text).many(),
+  Doc: (r) =>
+    P.alt(
+      r.InteractiveExpression,
+      r.DecimalExpression,
+      r.ChartExpression,
+      r.Statement,
+      r.Paragraph,
+      r.Text
+    ).many(),
 
   Statement: (r) =>
     P.alt(r.DollarStatement, r.PercentageStatement, r.DecimalStatement),
@@ -125,43 +125,50 @@ const docParser = P.createLanguage({
       makeStatement(x, "percentage")
     ),
 
-    DollarExpression: (r) => P.seq(P.string("$"), r.DecimalExpression).map((x) =>
+  DollarExpression: (r) =>
+    P.seq(P.string("$"), r.DecimalExpression).map((x) =>
       makeExpression(x, "dollar")
     ),
 
-    PercentageExpression: (r) =>
+  PercentageExpression: (r) =>
     P.seq(r.DecimalExpression, P.string("%")).map((x) =>
       makeExpression(x, "percentage")
     ),
 
-    PlainExpression: (r) => P.string("{=").then(r.MathPair).skip(P.string("}")),
+  PlainExpression: (r) => P.string("{=").then(r.MathPair).skip(P.string("}")),
 
+  DecimalExpression: (r) =>
+    r.PlainExpression.map((x) => makeExpression(x, "decimal")),
 
-    DecimalExpression: (r) => r.PlainExpression.map((x) => makeExpression(x, "decimal")),
+  ChartExpression: (r) =>
+    P.string("{#")
+      .then(r.ChartPair)
+      .skip(P.string("}"))
+      .map((x) => ({ type: "chart", y: x[0], x: x[1] })),
 
-    
-    ChartExpression: (r) => P.string("{#").then(r.ChartPair).skip(P.string("}")).map(x=>({type:"chart", y:x[0], x:x[1]})),
+  InteractiveExpression: (r) =>
+    P.string("{!=")
+      .then(r.MathPair)
+      .skip(P.string("}"))
+      .map((x) => makeExpression(x, "interactive")),
 
-    InteractiveExpression: (r) => P.string("{!=").then(r.MathPair).skip(P.string("}")).map((x)=>makeExpression(x, "interactive")),
-    
-    Pair: (r) => P.seq(r.Range.skip(P.string(":")), r.Variable),
-    
-    MathPair: (r) => P.seq(r.Math.skip(P.string(":")), r.Variable),
-    
-    Range: (r) => P.sepBy1(r.Decimal, P.string("-")).map(makeRange),
+  Pair: (r) => P.seq(r.Range.skip(P.string(":")), r.Variable),
 
-    ChartPair: (r) => P.sepBy1(r.Variable, P.string(" by ")),
-    
-    Variable: (r) => P.regexp(/[a-z_]+/),
-    
-    Math: (r) => P.regexp(/[^:]+/),
-    
-    Decimal: (r) => P.regexp(/[+-]?[0-9.]+/).map(explainDecimal),
-    
-    Paragraph: (r) => P.newline.times(2).map(x=>({type: "paragraph"})),
-    
-    Text: (r) =>
-    
+  MathPair: (r) => P.seq(r.Math.skip(P.string(":")), r.Variable),
+
+  Range: (r) => P.sepBy1(r.Decimal, P.string("-")).map(makeRange),
+
+  ChartPair: (r) => P.sepBy1(r.Variable, P.string(" by ")),
+
+  Variable: (r) => P.regexp(/[a-z_]+/),
+
+  Math: (r) => P.regexp(/[^:]+/),
+
+  Decimal: (r) => P.regexp(/[+-]?[0-9.]+/).map(explainDecimal),
+
+  Paragraph: (r) => P.newline.times(2).map((x) => ({ type: "paragraph" })),
+
+  Text: (r) =>
     P.alt(P.any, P.whitespace).map((x) => ({ type: "text", value: x })),
 });
 
@@ -181,43 +188,37 @@ function parse(text) {
     return arr.concat(el);
   }, []);
 
-    
   let state = concatted.reduce(function (obj, value) {
-      if (value.type === "interactive") {
-	  console.log('INTERACTIVE', value);
-	  Object.assign(obj, { [value.variable]: value.value });
-      }
-      else if (value.type === "statement") {
-	  Object.assign(obj, { [value.variable]: value.value.value });
-      }
-      else if (value.type === "expression") {
-	  Object.assign(obj, { [value.variable]: value.value });
-      }
+    if (value.type === "interactive") {
+      console.log("INTERACTIVE", value);
+      Object.assign(obj, { [value.variable]: value.value });
+    } else if (value.type === "statement") {
+      Object.assign(obj, { [value.variable]: value.value.value });
+    } else if (value.type === "expression") {
+      Object.assign(obj, { [value.variable]: value.value });
+    }
     return obj;
   }, {});
 
+  let ranges = concatted.reduce(function (obj, value) {
+    let vv = value.value;
 
-    let ranges = concatted.reduce(function (obj, value) {
-	let vv = value.value;
-	
-	if (value.type === "statement") {
-	    const ARRAY_SIZE = 10;
-	    let arr = [];
-	    const tick = (vv.max - vv.min)/ARRAY_SIZE;
-	    for (let i = vv.min; i <= vv.max; i = i + tick) {
-		const j = Math.round(i)
-		arr.push(j);
-	    }
-	    arr.sort((a,b)=>a-b);
-	    vv['range'] = arr
-	    Object.assign(obj, { [value.variable]: vv });
-	}
-	else if (value.type === "expression") {
-	    Object.assign(obj, { [value.variable]: value });
-	}
-	return obj;
-    }, {});
-    
+    if (value.type === "statement") {
+      const ARRAY_SIZE = 10;
+      let arr = [];
+      const tick = (vv.max - vv.min) / ARRAY_SIZE;
+      for (let i = vv.min; i <= vv.max; i = i + tick) {
+        const j = Math.round(i);
+        arr.push(j);
+      }
+      arr.sort((a, b) => a - b);
+      vv["range"] = arr;
+      Object.assign(obj, { [value.variable]: vv });
+    } else if (value.type === "expression") {
+      Object.assign(obj, { [value.variable]: value });
+    }
+    return obj;
+  }, {});
 
   const mathed = concatted.filter((o) => o.type === "expression");
   mathed.map((el) => {
@@ -225,7 +226,7 @@ function parse(text) {
     return true;
   });
 
-    return [concatted, state, ranges];
+  return [concatted, state, ranges];
 }
 
 // var fs = require("fs");
