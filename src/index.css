@@ -11,3 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+footer {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 14px;
+  align-items: center;
+  padding: 1em 2em;
+}
+
+footer img {
+  margin-left: 10px;
+}
+
+#root {
+  min-height: calc(100vh - 106px);
+}
+footer {
+  height: 78px;
+}
+
