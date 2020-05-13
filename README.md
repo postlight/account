@@ -97,6 +97,13 @@ Note as well the very fine [React Hamburger Menu](https://www.npmjs.com/package/
 ## Code Notes
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It has yet to be ejected.
 
+If you'd like to run it locally, you can:
+
+```bash
+yarn install
+yarn start
+```
+
 ## Could this be used for evil?
 - Yes, if people used it to "prove" things that are nonsense, like a Eugenics calculator about improving the genetic stock of humanity, or a calculator that proved that a certain percentage of humans must be turned into food.
 - C.f. also "How to Lie with Statistics."
