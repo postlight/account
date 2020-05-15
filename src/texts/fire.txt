@@ -1,0 +1,7 @@
+You are a gainfully employed person :construction_worker: who spends less than you earn :muscle: and invests the rest. :medal:
+
+Your monthly take-home pay :dollar: is ${5000:monthlynet} and your monthly expenses :money_with_wings: are ${3000:monthlyexpenses}. That means your savings rate is {=100 - (monthlyexpenses * 100 / monthlynet):savingsrate}%. Good job! :trophy: (Unless that number's red :disappointed:.)
+
+If you save {=(100 / withdrawalrate):multiple}x your annual expenses, or ${=multiple * (monthlyexpenses * 12):accumulationrequired}, an annual withdrawal rate of {4:withdrawalrate}% :chart_with_downwards_trend: will cover them :knife_fork_plate: :house: :pill: :car:.
+
+It will take {=accumulationrequired / ((monthlynet - monthlyexpenses) * 12):years} years :older_adult: to save that much :money_bag: quit working :wave: and achieve financial independence. :fire: :money_mouth: :fire:
