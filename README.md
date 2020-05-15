@@ -2,13 +2,13 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0ccc4ad6-ff9f-472a-b1e8-41dd333a6c02/deploy-status)](https://app.netlify.com/sites/account-account/deploys)
 
-Account is a markup format for making web pages like this:
+[Postlight](https://postlight.com)'s Account is a markup format for making web pages like this:
 
 ![An animated gif of a demo of this code.](./doc/soda-demo-cropped.gif)
 
-[Here is a live demo so you can see it working.](https://account-account.netlify.app/)
+Check out [a live demo of Account](https://account.postlight.com/), and [read more about the project](https://postlight.com/trackchanges/the-worlds-worst-calculator).
 
-## What is this?
+## What is Account?
 
 It's a tool for making short accounts, which are accounts that account for themselves using accounting.
 
