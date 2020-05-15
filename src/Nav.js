@@ -47,7 +47,7 @@ function Nav(props) {
             </b>
             , a{" "}
             <a href="https://postlight.com/labs">
-              Postlight "Mini-Labs" project
+              Postlight Labs project
             </a>{" "}
             by <a href="https://twitter.com/ftrain">Paul Ford</a>.{" "}
             <a href="https://github.com/postlight/account">Get the code</a>,
