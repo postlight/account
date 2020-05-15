@@ -12,4 +12,4 @@ monthly_costs * ((((1 + adjusted)^period) - 1) / adjusted)
 
 :total_saved} in a decade.
 
-{#total_saved by daily_sodas}
+

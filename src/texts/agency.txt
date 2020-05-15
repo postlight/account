@@ -1,0 +1,14 @@
+
+A week is {20-60:hours} hours and there are {26-52:weeks} working weeks in a year.
+
+You have a staff of {200:number_of_staff} and on average you pay them ${150:staff_rate}/hr. So you have {=number_of_staff * weeks * hours:staff_hours} hours available per year, for which you pay ${=staff_rate*staff_hours:staff_expense}.
+
+You can generate work from {20:number_of_clients} clients over a year. Your average client needs a team of {20:team_size} and pays ${150:client_rate} per hour per person. A typical project runs about {0-52:project_weeks} weeks. So they are asking for {=number_of_clients * team_size * project_weeks * hours:client_hours} hours of work per year ({=client_hours/hours/weeks:person_years} person-years), for ${=client_rate*client_hours:client_revenue}.
+(At current staffing you can fulfill {=number_of_staff/person_years * 100:staffing_ratio}% of that.) This means that your profit is
+${=
+available_staff = if(person_years < number_of_staff, person_years, number_of_staff);
+actual_client_revenue = available_staff * hours * weeks * client_rate;
+actual_client_revenue - staff_expense
+:profit}.
+
+{#profit by number_of_clients}

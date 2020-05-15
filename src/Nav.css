@@ -1,11 +1,11 @@
 .burger {
-    margin-left:-10px;
+    margin:5px;
     position:fixed;
     top:0;
 }
 
 #nav {
-    font-size:125%;
+    font-size:75%;
     right:0px;
     position:fixed;
     width:100%;
@@ -31,7 +31,7 @@ div#nav.hamburger-false {
 }
 
 #inner-nav {
-    height:60%;
+    height:90%;
     overflow-y:scroll; 
     
 }

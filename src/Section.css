@@ -22,11 +22,12 @@ div.spacer {
 .chart {
     height:325px;
     border:1px solid #ccc;
-    padding:0px 50px 120px 1em;
+    padding:0px 20px 120px 0.5em;
     background:#fafafa;
 }
 
 .chart h3 {
+    font-size:1.25em;
     font-weight:200;
 }
 
