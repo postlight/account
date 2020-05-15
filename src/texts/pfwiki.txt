@@ -1,0 +1,14 @@
+Probable Futures has a wiki. It has {10:theme_count} themes and each theme takes {80:theme_hours} hours to fully craft, research, and write.
+
+Each theme has {5:major_count} major entries and each minor theme takes {40:major_hours} hours to research and write.
+
+Each major theme links to {20:entry_count} entries, and each entry takes {6:entry_hours} hours to craft.
+
+This means we've got {=theme_count + (theme_count * major_count) + (theme_count * major_count * entry_count):nodes} individual content items.
+Thus we have a total of {=
+theme_count * theme_hours
++ (theme_count * major_count * major_hours)
++ (theme_count * major_count * entry_count * entry_hours)
+:total_hours} total hours, or {=total_hours/40/4:months} months ({=months/12:total_years} years) of human effort.
+
+{#total_hours by theme_count}

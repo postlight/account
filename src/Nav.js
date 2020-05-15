@@ -28,10 +28,10 @@ function Nav(props) {
         <HamburgerMenu
           isOpen={hamburgerOpen}
           menuClicked={() => setHamburgerOpen(hamburgerOpen ? false : true)}
-          width={80}
-          height={50}
-          strokeWidth={3}
-          rotate={45}
+          width={30}
+          height={20}
+          strokeWidth={4}
+          rotate={0}
           animationDuration={0.2}
           className="burger"
           color="slategray"

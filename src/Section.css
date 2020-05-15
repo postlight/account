@@ -14,3 +14,21 @@ h1 {
 .negative {
     color:red;
 }
+
+div.spacer {
+    height:0.75em;
+}
+
+.chart {
+    height:325px;
+    border:1px solid #ccc;
+    padding:0px 20px 120px 0.5em;
+    background:#fafafa;
+}
+
+.chart h3 {
+    font-size:1.25em;
+    font-weight:200;
+}
+
+
