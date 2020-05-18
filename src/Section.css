@@ -1,16 +1,32 @@
 h1 {
-    font-weight:200;
-    font-size:2em;
-    color:slategray;
-    text-align:right;
-    margin:0em 0 0.25em 0;
+  font-weight: 200;
+  font-size: 2em;
+  color: slategray;
+  text-align: right;
+  margin: 0em 0 0.25em 0;
+}
+
+button {
+  background: none;
+  border: none;
+  color: slategray;
+  font-size: 0.8em;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 #text {
-    padding:0.25em 2em 0 2em;
-    color:#444;
+  padding: 0.25em 2em 0 2em;
+  color: #444;
+}
+
+pre {
+  line-height: 2em;
+  white-space: pre-wrap;
 }
 
 .negative {
-    color:red;
+  color: red;
 }
