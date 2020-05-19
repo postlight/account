@@ -1,6 +1,7 @@
 .burger {
-    margin-left:-10px;
     position:fixed;
+    margin-top: 15px;
+    margin-left: 15px;
 }
 
 #nav {
