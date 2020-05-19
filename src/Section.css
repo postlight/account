@@ -10,7 +10,7 @@ button {
   background: none;
   border: none;
   color: slategray;
-  font-size: 0.8em;
+  font-size: 0.7em;
 }
 
 button:hover {
@@ -23,8 +23,13 @@ button:hover {
 }
 
 pre {
+  border: 1px solid slategray;
+  padding: 8px;
+  font-size: 0.8em;
   line-height: 2em;
   white-space: pre-wrap;
+  max-height: 150px;
+  overflow-y: scroll;
 }
 
 .negative {

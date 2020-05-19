@@ -1,7 +1,7 @@
 import "util";
 import numeral from "numeral";
 import useSearchParams from "@postlight/use-search-params";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Slider from "./Slider";
 import Statement from "./Statement";
 import Text from "./Text";
@@ -9,7 +9,7 @@ import Text from "./Text";
 import "./Section.css";
 
 function Section({ ast, astState, page, rawText }) {
-  const [viewSource, setViewSource] = useState(false);
+  const [viewSource, setViewSource] = useState();
   const searchParams = useSearchParams("replace");
   const state = useMemo(readFields, [astState, searchParams]);
 
@@ -71,13 +71,24 @@ function Section({ ast, astState, page, rawText }) {
     }
   }
 
+  useEffect(() => {
+    setViewSource(false);
+  }, [page]);
+
   return (
     <div id="text">
       <h1 key="h1">{page}</h1>
-      <button onClick={() => setViewSource(!viewSource)}>
-        view {viewSource ? "story" : "source"}
-      </button>
-      <div>{viewSource ? <pre>{rawText}</pre> : ast.map(toComponents)}</div>
+      {ast.map(toComponents)}
+      <div>
+        <button onClick={() => setViewSource(!viewSource)}>
+          {viewSource ? "hide" : "view"} source
+        </button>
+        {viewSource && (
+          <pre>
+            <code>{rawText}</code>
+          </pre>
+        )}
+      </div>
     </div>
   );
 }
