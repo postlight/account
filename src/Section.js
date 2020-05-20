@@ -95,7 +95,7 @@ function Section({ ast, astState, page, rawText }) {
 
   return (
     <div id="text">
-      <h1 key="h1">{page}</h1>
+      <h1>{page}</h1>
       {ast.map(toComponents)}
       <button onClick={() => setViewSource(!viewSource)}>
         {viewSource ? (
