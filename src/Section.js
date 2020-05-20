@@ -5,8 +5,20 @@ import React, { useMemo, useState, useEffect } from "react";
 import Slider from "./Slider";
 import Statement from "./Statement";
 import Text from "./Text";
+import Prism from "prismjs";
 
+import "./Source.css";
 import "./Section.css";
+
+const template = Prism.languages.javascript["template-string"].inside;
+
+Prism.languages.account = {
+  ...template,
+  interpolation: {
+    ...template.interpolation,
+    pattern: /((?:^|[^\\])(?:\\{2})*){(?:[^{}]|{(?:[^{}]|{[^}]*})*})+}/,
+  },
+};
 
 function Section({ ast, astState, page, rawText }) {
   const [viewSource, setViewSource] = useState();
@@ -75,20 +87,36 @@ function Section({ ast, astState, page, rawText }) {
     setViewSource(false);
   }, [page]);
 
+  useEffect(() => {
+    if (viewSource) {
+      Prism.highlightAll();
+    }
+  }, [viewSource]);
+
   return (
     <div id="text">
       <h1 key="h1">{page}</h1>
       {ast.map(toComponents)}
-      <div>
-        <button onClick={() => setViewSource(!viewSource)}>
-          {viewSource ? "hide" : "view"} source
-        </button>
-        {viewSource && (
-          <pre>
+      <button onClick={() => setViewSource(!viewSource)}>
+        {viewSource ? (
+          <>
+            <span>Hide source</span>
+            <div className="down-triangle" />
+          </>
+        ) : (
+          <>
+            <span>View source</span>
+            <div className="up-triangle" />
+          </>
+        )}
+      </button>
+      {viewSource && (
+        <div className="source">
+          <pre className="language-account">
             <code>{rawText}</code>
           </pre>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 }

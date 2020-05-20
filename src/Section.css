@@ -7,10 +7,14 @@ h1 {
 }
 
 button {
+  align-items: center;
   background: none;
   border: none;
   color: slategray;
+  display: flex;
   font-size: 0.7em;
+  font-weight: bold;
+  margin: 20px 0;
 }
 
 button:hover {
@@ -22,14 +26,28 @@ button:hover {
   color: #444;
 }
 
-pre {
+.source {
   border: 1px solid slategray;
-  padding: 8px;
-  font-size: 0.8em;
-  line-height: 2em;
-  white-space: pre-wrap;
-  max-height: 150px;
+  max-height: 250px;
   overflow-y: scroll;
+}
+
+.up-triangle {
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid slategray;
+  border-top: 8px solid transparent;
+  margin-left: 8px;
+  height: 0px;
+  width: 0px;
+}
+
+.down-triangle {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid slategray;
+  margin-left: 8px;
+  height: 0px;
+  width: 0px;
 }
 
 .negative {

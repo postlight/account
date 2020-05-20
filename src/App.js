@@ -19,7 +19,7 @@ const webpackTextLoader = require.context(
 
 const textFiles = webpackTextLoader.keys().map((filename) => {
   return {
-    filename: filename,
+    filename,
     text: webpackTextLoader(filename).default,
   };
 });
