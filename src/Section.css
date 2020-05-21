@@ -1,16 +1,55 @@
 h1 {
-    font-weight:200;
-    font-size:2em;
-    color:slategray;
-    text-align:right;
-    margin:0em 0 0.25em 0;
+  font-weight: 200;
+  font-size: 2em;
+  color: slategray;
+  text-align: right;
+  margin: 0em 0 0.25em 0;
+}
+
+button {
+  align-items: center;
+  background: none;
+  border: none;
+  color: slategray;
+  display: flex;
+  font-size: 0.7em;
+  font-weight: bold;
+  margin: 20px 0;
+}
+
+button:hover {
+  cursor: pointer;
 }
 
 #text {
-    padding:0.25em 2em 0 2em;
-    color:#444;
+  padding: 0.25em 2em 0 2em;
+  color: #444;
+}
+
+.source {
+  border: 1px solid slategray;
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.up-triangle {
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid slategray;
+  border-top: 8px solid transparent;
+  margin-left: 8px;
+  height: 0px;
+  width: 0px;
+}
+
+.down-triangle {
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid slategray;
+  margin-left: 8px;
+  height: 0px;
+  width: 0px;
 }
 
 .negative {
-    color:red;
+  color: red;
 }
