@@ -1,7 +1,7 @@
 import "util";
 import parse from "./smarter-text";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Redirect } from "react-router-dom";
 
 import "./App.css";
 import Section from "./Section";
@@ -35,9 +35,11 @@ const textVars = textFiles.reduce(
   {}
 );
 
-function App(props) {
+function App() {
   let { page } = useParams();
+  if (!textVars[page]) return <Redirect to="/soda" />;
   const [ast, astState, rawText] = textVars[page];
+
   return (
     <div className="App">
       <Nav textVars={textVars} />
