@@ -39,7 +39,7 @@ const textVars = textFiles.reduce(
 function App() {
   let { page, creator } = useParams();
   if (!textVars[page]) return <Redirect to="/soda" />;
-  const [ast, astState, rawText] = textVars[page];
+  const [ast, astState, markdown] = textVars[page];
 
   return (
     <div className="App">
@@ -50,7 +50,12 @@ function App() {
           <Creator />
         </>
       ) : (
-        <Section ast={ast} astState={astState} rawText={rawText} page={page} />
+        <Section
+          ast={ast}
+          astState={astState}
+          markdown={markdown}
+          page={page}
+        />
       )}
     </div>
   );
