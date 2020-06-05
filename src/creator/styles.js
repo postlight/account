@@ -91,7 +91,8 @@ export const VarTable = styled(Box)`
   background-color: #ffffff;
 `;
 export const VarTableCell = styled(Box)`
-  background-color: ${({ header }) => (header ? "#dcffeb" : "#fff")};
+  background-color: ${({ header, isValid }) =>
+    header ? (isValid ? "#dcffeb" : "#FFBCBC") : "#fff"};
   border: 1px solid #cacaca;
   box-sizing: border-box;
   color: #595959;
