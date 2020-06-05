@@ -281,7 +281,7 @@ export default function Creator() {
                 ast={parse(preview)[0]}
                 astState={parse(preview)[1]}
                 markdown={preview}
-                page={"creator"}
+                page={title}
               />
             </Box>
           </Box>
