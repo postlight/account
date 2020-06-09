@@ -12,21 +12,19 @@ import {
   Editor,
   Preview,
   Publish,
-  VarTable,
-  VarTableBox,
-  VarTableCell,
-  VarTableHeader,
+  Worksheet,
+  WorksheetBox,
+  WorksheetCell,
+  WorksheetHeader,
 } from "./styles";
 
 import "./Creator.css";
 import "react-quill/dist/quill.snow.css";
 
 let BlockEmbed = Quill.import("blots/block/embed");
-let Delta = Quill.import("delta");
 
 class PortalBlot extends BlockEmbed {
   static create(data) {
-    console.log(data);
     const node = super.create();
     const el = document.getElementById(data.id);
     if (el) {
@@ -34,14 +32,15 @@ class PortalBlot extends BlockEmbed {
     }
 
     node.setAttribute("id", data.id);
-    node.setAttribute("data-variable", "");
-    node.setAttribute("data-value", "");
+    node.setAttribute("data-variable", data["data-variable"]);
+    node.setAttribute("data-value", data["data-value"]);
 
     return node;
   }
 
   static formats(node) {
     return {
+      id: node.getAttribute("id"),
       "data-variable": node.getAttribute("data-variable"),
       "data-value": node.getAttribute("data-value"),
     };
@@ -55,7 +54,7 @@ Quill.register(PortalBlot);
 export default function Creator() {
   let quillRef = useRef();
   const [title, setTitle] = useState("Sodas");
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState();
   const [variables, setVariables] = useState([
     { variable: "sodas", value: "1-4", isValid: true },
     { variable: "sodas_cost", value: "1.50", isValid: true },
@@ -68,6 +67,9 @@ export default function Creator() {
   const [portals, setPortals] = useState([]);
   const [showLayer, setShowLayer] = useState(false);
   const [preview, setPreview] = useState();
+  const [savedStories, setSavedStories] = useState(
+    JSON.parse(localStorage.getItem("savedStories"))
+  );
 
   function updateVar(index, key, value) {
     const update = [...variables];
@@ -95,16 +97,18 @@ export default function Creator() {
   }
   const loadSavedStory = useCallback((story) => {
     const stories = JSON.parse(localStorage.getItem("savedStories"));
-    console.log(stories[story].value);
 
     setVariables(stories[story].variables);
     setTitle(stories[story].title);
-    setValue(new Delta(stories[story].value));
+    quillRef.current.getEditor().setContents(
+      stories[story].value.ops.map((s) => ({
+        insert: s.attributes ? { portal: s.attributes } : s.insert,
+      }))
+    );
     setPortals(stories[story].portals);
   }, []);
 
   useEffect(() => {
-    console.log(localStorage.getItem("savedStories"));
     quillRef.current.editor.keyboard.addBinding(
       {
         key: "2",
@@ -114,14 +118,12 @@ export default function Creator() {
         const id = new Date().getTime();
 
         this.quill.insertEmbed(range.index, "portal", { id });
-        this.quill.insertText(range.index + 1, " ");
-        this.quill.setSelection(range.index + 2);
         setPortals((prev) => [...prev, { id }]);
       }
     );
   }, []);
 
-  useEffect(() => {}, [variables, loadSavedStory]);
+  useEffect(() => {}, [variables, portals, loadSavedStory]);
 
   return (
     <CreatorWrapper>
@@ -172,35 +174,58 @@ export default function Creator() {
               border={false}
               label="save"
               onClick={() => {
-                const savedStories =
-                  JSON.parse(localStorage.getItem("savedStories")) || [];
+                // if (
+                //   !portals.reduce(
+                //     (acc, cur) =>
+                //       !!document.getElementById(cur.id) ? acc : false,
+                //     true
+                //   )
+                // ) {
+                //   return;
+                // }
+                const stories = savedStories || [];
                 const newStory = {
                   title,
                   variables,
-                  portals,
+                  portals: portals.reduce(
+                    (acc, cur) =>
+                      document.getElementById(cur.id) && {
+                        ...cur,
+                        "data-variable": document
+                          .getElementById(cur.id)
+                          .getAttribute("data-variable"),
+
+                        "data-value": document
+                          .getElementById(cur.id)
+                          .getAttribute("data-value"),
+                      },
+                    []
+                  ),
                   value: quillRef.current.getEditor().getContents(),
                 };
                 localStorage.setItem(
                   "savedStories",
-                  JSON.stringify([...savedStories, newStory])
+                  JSON.stringify([...stories, newStory])
                 );
+
+                setSavedStories([...stories, newStory]);
               }}
             />
           </Box>
         </Editor>
       </Body>
-      <VarTableBox>
+      <WorksheetBox>
         <Heading>Variable Table</Heading>
 
-        <VarTable>
+        <Worksheet>
           <Box direction="row">
-            <VarTableHeader>Variable</VarTableHeader>
-            <VarTableHeader>Value</VarTableHeader>
+            <WorksheetHeader>Variable</WorksheetHeader>
+            <WorksheetHeader>Value</WorksheetHeader>
           </Box>
           <Box>
             {variables.map((v, i) => (
               <Box direction="row" key={v.variable}>
-                <VarTableCell
+                <WorksheetCell
                   header
                   isValid={v.isValid}
                   contentEditable
@@ -209,7 +234,7 @@ export default function Creator() {
                   defaultValue={v.variable}
                   onBlur={(e) => updateVar(i, "variable", e.target.value)}
                 />
-                <VarTableCell
+                <WorksheetCell
                   contentEditable
                   suppressContentEditableWarning
                   as="textarea"
@@ -221,6 +246,7 @@ export default function Creator() {
 
             <Button
               plain
+              margin="xsmall"
               label={
                 <Text color="blue" size="small">
                   + add a variable
@@ -234,27 +260,25 @@ export default function Creator() {
               }
             />
           </Box>
-        </VarTable>
-        <VarTable margin={{ top: "medium" }}>
-          <Box direction="row">
-            <VarTableHeader>Saved Stories</VarTableHeader>
-          </Box>
-          {localStorage.getItem("savedStories") &&
-            JSON.parse(localStorage.getItem("savedStories")).map((s, i) => (
+        </Worksheet>
+        <Heading>Saved Stories</Heading>
+        <Worksheet margin={{ top: "medium" }}>
+          {savedStories &&
+            savedStories.map((s, i) => (
               <Box direction="row" key={i}>
-                <VarTableCell>
+                <WorksheetCell>
                   <Text>{s.title}</Text>
-                </VarTableCell>
-                <VarTableCell>
+                </WorksheetCell>
+                <WorksheetCell>
                   <Button
                     plain
                     label="open"
                     onClick={() => loadSavedStory(i)}
                   />
-                </VarTableCell>
+                </WorksheetCell>
               </Box>
             ))}
-        </VarTable>
+        </Worksheet>
         {variables
           .filter((v) => !v.isValid)
           .map((v) => (
@@ -264,9 +288,21 @@ export default function Creator() {
               </Text>
             </Box>
           ))}
-      </VarTableBox>
+      </WorksheetBox>
       {portals.length > 0 &&
-        portals.map((p) => <Portal key={p.id} id={p.id} vars={variables} />)}
+        portals.map((p, i) => (
+          <Portal
+            key={p.id}
+            id={p.id}
+            vars={variables}
+            initial={p["data-variable"] && [p["data-variable"], i]}
+            update={(length) => {
+              const pos = quillRef.current.getEditor().getText().length;
+              quillRef.current.getEditor().insertText(pos + length, " ");
+              quillRef.current.getEditor().setSelection(pos + length);
+            }}
+          />
+        ))}
       {showLayer && (
         <Layer full animation="fadeIn">
           <Box fill background="light-4" align="end" pad="large">
@@ -280,7 +316,7 @@ export default function Creator() {
               <Section
                 ast={parse(preview)[0]}
                 astState={parse(preview)[1]}
-                markdown={preview}
+                markdown={preview.replace("/n", " ")}
                 page={title}
               />
             </Box>

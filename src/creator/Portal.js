@@ -3,9 +3,9 @@ import { createPortal } from "react-dom";
 import { Menu, Box } from "grommet";
 import { Small, Name } from "./styles";
 
-const Portal = ({ id, vars }) => {
-  const [selected, setSelected] = useState("");
+const Portal = ({ id, vars, initial, update }) => {
   const el = document.getElementById(id);
+  const [selected, setSelected] = useState(initial);
 
   useEffect(() => {}, [vars]);
 
@@ -15,12 +15,13 @@ const Portal = ({ id, vars }) => {
     setSelected([variable, index]);
     el.setAttribute("data-variable", variable);
     el.setAttribute("data-value", value);
+    update(variable.length + 1);
   }
 
   return createPortal(
     <Box border pad="1px">
       <Menu
-        open
+        open={!selected}
         dropProps={{
           align: { top: "bottom", left: "left" },
           elevation: "xlarge",
@@ -32,7 +33,7 @@ const Portal = ({ id, vars }) => {
             onClick: () => handleSelected(v.variable, `${v.value}`, i),
           }))}
       >
-        {selected.length > 0 ? (
+        {selected ? (
           <Box
             contentEditable={false}
             direction="row"

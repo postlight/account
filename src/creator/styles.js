@@ -79,18 +79,19 @@ export const Publish = styled(Button)`
   width: 109px;
 `;
 
-export const VarTableBox = styled(Box)`
+export const WorksheetBox = styled(Box)`
   grid-area: 1 / 2 / 3 / 2;
 `;
 
-export const VarTable = styled(Box)`
+export const Worksheet = styled(Box)`
   box-sizing: border-box;
   width: 290px;
   border: 1px solid #cacaca;
   border-radius: 4px;
   background-color: #ffffff;
+  margin-bottom: 20px;
 `;
-export const VarTableCell = styled(Box)`
+export const WorksheetCell = styled(Box)`
   background-color: ${({ header, isValid }) =>
     header ? (isValid ? "#dcffeb" : "#FFBCBC") : "#fff"};
   border: 1px solid #cacaca;
@@ -107,7 +108,7 @@ export const VarTableCell = styled(Box)`
   width: 50%;
 `;
 
-export const VarTableHeader = styled(VarTableCell)`
+export const WorksheetHeader = styled(WorksheetCell)`
   border: none;
   color: #595959;
   font-family: "Helvetica Neue";
