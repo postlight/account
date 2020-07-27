@@ -20,7 +20,7 @@ Prism.languages.account = {
   },
 };
 
-function Section({ ast, astState, page, rawText }) {
+function Section({ ast, astState, page, markdown }) {
   const [viewSource, setViewSource] = useState();
   const searchParams = useSearchParams("replace");
   const state = useMemo(readFields, [astState, searchParams]);
@@ -113,7 +113,7 @@ function Section({ ast, astState, page, rawText }) {
       {viewSource && (
         <div className="source">
           <pre className="language-account">
-            <code>{rawText}</code>
+            <code>{markdown}</code>
           </pre>
         </div>
       )}

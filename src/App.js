@@ -2,6 +2,7 @@ import "util";
 import parse from "./smarter-text";
 import React from "react";
 import { useParams, Redirect } from "react-router-dom";
+import Creator from "./creator/Creator";
 
 import "./App.css";
 import Section from "./Section";
@@ -36,14 +37,26 @@ const textVars = textFiles.reduce(
 );
 
 function App() {
-  let { page } = useParams();
+  let { page, creator } = useParams();
   if (!textVars[page]) return <Redirect to="/soda" />;
-  const [ast, astState, rawText] = textVars[page];
+  const [ast, astState, markdown] = textVars[page];
 
   return (
     <div className="App">
       <Nav textVars={textVars} />
-      <Section ast={ast} astState={astState} rawText={rawText} page={page} />
+      {creator ? (
+        <>
+          <h1>Creator</h1>
+          <Creator />
+        </>
+      ) : (
+        <Section
+          ast={ast}
+          astState={astState}
+          markdown={markdown}
+          page={page}
+        />
+      )}
     </div>
   );
 }
