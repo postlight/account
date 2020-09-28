@@ -2,13 +2,13 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/0ccc4ad6-ff9f-472a-b1e8-41dd333a6c02/deploy-status)](https://app.netlify.com/sites/account-account/deploys)
 
-Account is a markup format for making web pages like this:
+[Postlight](https://postlight.com)'s Account is a markup format for making web pages like this:
 
 ![An animated gif of a demo of this code.](./doc/soda-demo-cropped.gif)
 
-[Here is a live demo so you can see it working.](https://account-account.netlify.app/)
+Check out [a live demo of Account](https://account.postlight.com/), and [read more about the project](https://postlight.com/trackchanges/the-worlds-worst-calculator).
 
-## What is this?
+## What is Account?
 
 It's a tool for making short accounts, which are accounts that account for themselves using accounting.
 
@@ -32,17 +32,17 @@ To make the page shown in the screenshot above, you'd write:
 
 ```
 :cup_with_straw: You drink
-{0-4:sodas_daily} 
-Diet Cokes per day, at a cost of 
-${0.00-3.50:soda_cost} per Diet 
+{0-4:sodas_daily}
+Diet Cokes per day, at a cost of
+${0.00-3.50:soda_cost} per Diet
 Coke.
 
-If you'd put that into an index 
-fund with a {-10.00-12.00:return}% 
-annual rate of return, you'd have 
-${=((((sodas_daily * 365) * soda_cost) / 12) * 
-(((1 + ((return/100)/12)) ^ 120) - 1) 
-/ ((return/100)/12)):total} 
+If you'd put that into an index
+fund with a {-10.00-12.00:return}%
+annual rate of return, you'd have
+${=((((sodas_daily * 365) * soda_cost) / 12) *
+(((1 + ((return/100)/12)) ^ 120) - 1)
+/ ((return/100)/12)):total}
 
 within a decade. :+1:
 
@@ -95,7 +95,14 @@ The numbers are formatted by [numeral.js](http://numeraljs.com/), which does wha
 Note as well the very fine [React Hamburger Menu](https://www.npmjs.com/package/react-hamburger-menu) which gave this site a hamburger menu so that I didn't have to read through five React Hamburger Menu tutorials while cutting-and-pasting the one approach that would work with Router and React hooks 16.8 or greater.
 
 ## Code Notes
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It has yet to be ejected. 
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). It has yet to be ejected.
+
+If you'd like to run it locally, you can:
+
+```bash
+yarn install
+yarn start
+```
 
 ## Could this be used for evil?
 - Yes, if people used it to "prove" things that are nonsense, like a Eugenics calculator about improving the genetic stock of humanity, or a calculator that proved that a certain percentage of humans must be turned into food.
@@ -112,7 +119,11 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
   - Live editing! Very simple because the parser is all JavaScript. Text on the left, live results on the right.
 - Content
   - Many more fun calculators made of text.
-  - The ability to inline HTML. 
+  - The ability to inline HTML.
   - Citations so that we know where the math is coming from.
 - Design
   - Actual design by designers who design
+
+---
+
+🔬 A Labs project from your friends at [Postlight](https://postlight.com). Happy coding!

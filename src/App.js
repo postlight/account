@@ -1,7 +1,7 @@
 import "util";
 import parse from "./smarter-text";
 import React from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Redirect } from "react-router-dom";
 
 import "./App.css";
 import Section from "./Section";
@@ -19,7 +19,7 @@ const webpackTextLoader = require.context(
 
 const textFiles = webpackTextLoader.keys().map((filename) => {
   return {
-    filename: filename,
+    filename,
     text: webpackTextLoader(filename).default,
   };
 });
@@ -31,17 +31,19 @@ function cleanFSInfo(k) {
 }
 
 const textVars = textFiles.reduce(
-  (m, t) => ({ ...m, [cleanFSInfo(t.filename)]: parse(t.text) }),
+  (m, t) => ({ ...m, [cleanFSInfo(t.filename)]: [...parse(t.text), t.text] }),
   {}
 );
 
-function App(props) {
+function App() {
   let { page } = useParams();
-  const [ast, astState] = textVars[page];
+  if (!textVars[page]) return <Redirect to="/soda" />;
+  const [ast, astState, rawText] = textVars[page];
+
   return (
     <div className="App">
       <Nav textVars={textVars} />
-      <Section ast={ast} astState={astState} page={page} />
+      <Section ast={ast} astState={astState} rawText={rawText} page={page} />
     </div>
   );
 }

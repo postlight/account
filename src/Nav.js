@@ -28,12 +28,13 @@ function Nav(props) {
         <HamburgerMenu
           isOpen={hamburgerOpen}
           menuClicked={() => setHamburgerOpen(hamburgerOpen ? false : true)}
-          width={80}
-          height={50}
-          strokeWidth={3}
-          rotate={45}
+          width={30}
+          height={25}
+          strokeWidth={4}
+          borderRadius={2}
+          rotate={0}
           animationDuration={0.2}
-          className="burger"
+          className="burgerComponent"
           color="slategray"
         />
       </div>
@@ -47,7 +48,7 @@ function Nav(props) {
             </b>
             , a{" "}
             <a href="https://postlight.com/labs">
-              Postlight "Mini-Labs" project
+              Postlight Labs project
             </a>{" "}
             by <a href="https://twitter.com/ftrain">Paul Ford</a>.{" "}
             <a href="https://github.com/postlight/account">Get the code</a>,

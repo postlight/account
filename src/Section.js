@@ -1,15 +1,27 @@
 import "util";
 import numeral from "numeral";
 import useSearchParams from "@postlight/use-search-params";
-import React, { useMemo } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import Slider from "./Slider";
 import Statement from "./Statement";
 import Text from "./Text";
+import Prism from "prismjs";
 
+import "./Source.css";
 import "./Section.css";
 
-function Section(props) {
-  const { ast, astState } = props;
+const template = Prism.languages.javascript["template-string"].inside;
+
+Prism.languages.account = {
+  ...template,
+  interpolation: {
+    ...template.interpolation,
+    pattern: /((?:^|[^\\])(?:\\{2})*){(?:[^{}]|{(?:[^{}]|{[^}]*})*})+}/,
+  },
+};
+
+function Section({ ast, astState, page, rawText }) {
+  const [viewSource, setViewSource] = useState();
   const searchParams = useSearchParams("replace");
   const state = useMemo(readFields, [astState, searchParams]);
 
@@ -71,10 +83,40 @@ function Section(props) {
     }
   }
 
+  useEffect(() => {
+    setViewSource(false);
+  }, [page]);
+
+  useEffect(() => {
+    if (viewSource) {
+      Prism.highlightAll();
+    }
+  }, [viewSource]);
+
   return (
     <div id="text">
-      <h1 key="h1">{props.page}</h1>
+      <h1>{page}</h1>
       {ast.map(toComponents)}
+      <button onClick={() => setViewSource(!viewSource)}>
+        {viewSource ? (
+          <>
+            <span>Hide source</span>
+            <div className="down-triangle" />
+          </>
+        ) : (
+          <>
+            <span>View source</span>
+            <div className="up-triangle" />
+          </>
+        )}
+      </button>
+      {viewSource && (
+        <div className="source">
+          <pre className="language-account">
+            <code>{rawText}</code>
+          </pre>
+        </div>
+      )}
     </div>
   );
 }
