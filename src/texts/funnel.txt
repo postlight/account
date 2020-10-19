@@ -1,7 +1,0 @@
-You run a SaaS business.
-
-Your website gets {1-250000:uniques} unique visitors per month. :chart_with_upwards_trend:
-Of those, {0.00-10:signuppercent}%, or {=(uniques*signuppercent)/100.00:signups} sign up. :thinking_face:
-{0.00-100:qualifiedpercent}% or {=(signups*qualifiedpercent)/100.00:qls} of these signups qualify :grinning:
-  (you do have a definition for qualified, right?)
-and {0.00-100:purchasedpercent}% or {=(qls*purchasedpercent)/100.00:customers} become customers. :money_mouth_face:

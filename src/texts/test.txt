@@ -1,0 +1,21 @@
+
+You own {{dogs: 0-100}} dogs. At the cost of ${{cost: 0-2.50-10 [format: '$0.00']}} per day, over the dog's lifetime of {{years: 7}} years, you will spend ${{total:= 365 * years * cost * dogs [format:$'0.00']}}.
+
+
+{{VARIABLE_NAME:EXPRESSION [format:'', style:slider]}}
+
+{{ARRAY_NAME:[1,2,3,4,5,6,7,8]}} # array of values, format applied to each
+
+{{ARRAY_NAME: http('https://nytimes.com/js', '.selector')}} # API request run each returned object in array through format
+
+{{VARIABLE_NAME:=EXPRESSION [format '']}} # expression
+
+{{chart VARIABLE_NAME by VARIABLE_NAME []}} # chart
+
+{{show VARIABLE_NAME of ARRAY_NAME}} # index lookup
+
+{{hide-unless: dogs > 25}}
+
+YOU HAVE TOO MANY DOGS
+
+{{end-hide}}

@@ -1,5 +1,0 @@
-:sneezing_face: You have allergies, and it's springtime in Pollenville. :blossom: :bee:
-
-If you buy boxes of {65:perbox} tissues and blow your :nose: {5:blows} times a day, in {5:years} years you'd use {=(blows*(365*years))/perbox:boxes} boxes. At ${1.50:costperbox} per box, that would cost you ${=costperbox * boxes:tissuespend}. :money_with_wings:
-
-If you switched to a set of ${5-15:hankiespend} hankerchiefs :sneezing_face: you'd save ${= tissuespend - hankiespend :savings} and several trees. :deciduous_tree: :sunflower: :deciduous_tree: :tulip: :deciduous_tree: :rose: :deciduous_tree:

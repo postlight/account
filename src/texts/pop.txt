@@ -1,6 +1,0 @@
-The population in 1997 was
-{5850000000:pop}.
-In {1000:years} years ({=1997+years:year}AD)
-human population will increase to
-{=rate=0.0136;pop * E^(rate*years):future_pop}
-

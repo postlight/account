@@ -1,7 +1,0 @@
-You are a gainfully employed person :construction_worker: who spends less than you earn :muscle: and invests the difference. :medal:
-
-Your monthly take-home pay :dollar: is ${5000:monthlynet} and your monthly expenses :money_with_wings: are ${3000:monthlyexpenses}. That means your savings rate is {=100 - (monthlyexpenses * 100 / monthlynet):savingsrate}%. Good job! :trophy: (Unless that number's red. :disappointed: )
-
-If you invest {=(100 / 4):multiple}x your annual expenses, or ${=multiple * (monthlyexpenses * 12):accumulationrequired}, a "safe" annual withdrawal rate of 4% :chart_with_downwards_trend: will cover :knife_fork_plate: :house: :pill: :car:.
-
-If you've already got ${10000:saved} invested :money_mouth:, at your savings rate plus a {6:return}% return, it will take {=(accumulationrequired - saved) / (((monthlynet - monthlyexpenses) * 12) + (((monthlynet - monthlyexpenses) * 12) + saved) * (return/100)):years} more years :older_adult: to build up enough enough :money_bag: quit working :wave: live on those returns :dancer: and achieve financial independence. :fire: :fire:

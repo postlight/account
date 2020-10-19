@@ -1,2 +1,0 @@
-The math here is very uninformed but, welp, {10000:cases} people have a virus. And since they live in a dense area, they come into close contact with {100:people} people before they get sick. Since {0.01-25.00:infected}% of people who come into contact catch the virus, that means that they've just infected {=floor(infected*people*cases):no_infected} people. And by day {1-300:day}, then {=1.565*1.1194^day:growth} are infected.
-
