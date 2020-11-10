@@ -1,51 +1,65 @@
 import "util";
 import parse from "./smarter-text";
-import React from "react";
-import { useParams, Redirect } from "react-router-dom";
-
+import useSearchParams from "@postlight/use-search-params";
+import React, { useMemo, useState, useEffect } from "react";
+import ReactDOM from "react-dom";
 import "./App.css";
-import Section from "./Section";
-import Nav from "./Nav";
+import numeral from "numeral";
+import Slider from "./Slider";
+import Statement from "./Statement";
+import Text from "./Text";
 
-// ########################################
-// Loading text files via Webpack into a hash
-// ########################################
+import "./Source.css";
+import "./Section.css";
 
-const webpackTextLoader = require.context(
-  "!raw-loader!./texts",
-  false,
-  /\.txt$/
-);
+function App({ ast, astState}) {
+    const [state, setState] = useState(astState);
 
-const textFiles = webpackTextLoader.keys().map((filename) => {
-  return {
-    filename,
-    text: webpackTextLoader(filename).default,
-  };
-});
+    let x = ast.map(toComponents);
+    function toComponents(o, i) {
 
-// Just the filenames
-function cleanFSInfo(k) {
-  const r = k.replace(/^\.\/(.+).txt$/, "$1");
-  return r;
-}
+	if (o.type==='range') {
+	    return ReactDOM.render(	    
+		<span className="full-statement" key={i}>
+		    <Slider
+			key={o.variable}
+			valueFromState={state[o.name]}
+			setState={setState}
+			i={i}
+			{...o}
+		    />
+		    <Statement valueFromState={state[o.name]} i={i} {...o} />
+		</span>,
+		document.getElementById(`account-${i}`));
+	}
 
-const textVars = textFiles.reduce(
-  (m, t) => ({ ...m, [cleanFSInfo(t.filename)]: [...parse(t.text), t.text] }),
-  {}
-);
+	else if (o.type==='math') {
+	    function format(n) {
+		const num = numeral(n);
+		if (n < 10 && n > -10) {
+		    return num.format("0.00");
+		}
+		return num.format("-0,0");
+            }
+            function evaluate(o) {
+		
+		const n = o.eval(state);
+		state[o.name] = n;
+		return n;
+            }
+            const n = evaluate(o);
+            const sign = n > 0 ? "positive" : "negative";
 
-function App() {
-  let { page } = useParams();
-  if (!textVars[page]) return <Redirect to="/soda" />;
-  const [ast, astState, rawText] = textVars[page];
+	    
+	    return ReactDOM.render(	    	    
+		<span className={"expression " + sign} key={i}>
+		    {format(state[o.name])}
+		</span>,
+		document.getElementById(`account-${i}`));
+	}
+    }
+    return null;
 
-  return (
-    <div className="App">
-      <Nav textVars={textVars} />
-      <Section ast={ast} astState={astState} rawText={rawText} page={page} />
-    </div>
-  );
 }
 
 export default App;

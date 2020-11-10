@@ -4,11 +4,21 @@ import React from "react";
 import "./Statement.css";
 
 function Statement(props) {
-  return (
+
+
+    function getExplanation() {
+	if (props.valueFromState) {
+	    if (props.valueFromState.string) {
+		return props.valueFromState.string;
+	    }
+	    return props.valueFromState;
+	}
+	return '';
+    }
+    
+    return (
     <span className="statement">
-      {props.format === "dollar" ? "$" : ""}
-      {numeral(props.valueFromState).format(props.value.formatString)}
-      {props.format === "percentage" ? "%" : ""}
+	{getExplanation()}
     </span>
   );
 }

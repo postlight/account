@@ -3,42 +3,25 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="https://postlight.com/wp-content/themes/postlight/public/img/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Tell stories with numbers"
-      />
     <title>Account</title>
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@PostlightStudio" />
-    <meta name="twitter:title" content="Account" />
-    <meta name="twitter:image" content="https://account-account.netlify.app/og-image.png" />
-    <meta
-      name="twitter:description"
-      content="Tell stories with numbers"
-    />
-    <meta property="og:title" content="Account" />
-    <meta
-      property="og:description"
-      content="Tell stories with numbers"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64486563-15"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'UA-64486563-15');
-    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app. I'm so sorry.</noscript>
+
+    
+    <p>Hello it's me your pal Paul Ford. I live in America.</p>
+
+    <p>I was born in {{born=range:[1950,2000]}}.</p>
+
+    <p>I plan to work until I'm {{retireage=range:[60,80]}} and live until I'm {{maxage=range:[40,100]}} years of age. That means I have {{workyears=math:(retireage - (2021 - born))}} years of work left and {{years=math:(maxage - (2021 - born))}} years of life left, and {{weeks=math:(years * 52)}} weeks.</p>
+
+    <p>This means I can eat {{meals=math:(weeks * 7 * 3)}} meals. I'll spend {{commute=math:(years * 200 * 2)}} hours commuting, which means I can listen to {{podcasts=math:(commute*2)}} podcasts, as long as they're normal length, not just people talking for hours.</p>
+
+    <p>Or I could just spend {{twitter=math:(years * 365 * 6)}} hours on Twitter.</p>
+    
+    
     <div id="root"></div>
     <footer>A Labs project from your friends at <a href="https://postlight.com"><img alt="Postlight" src="/postlight-logo.svg" width="97" height="25"></a></footer>
+
   </body>
 </html>
