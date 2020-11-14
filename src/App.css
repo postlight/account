@@ -1,18 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200;400;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@200;400;700&display=swap');
-
-body {
-    font-size:1.5em;
-    line-height:2em;
-    font-family: 'IBM Plex Sans', sans-serif;
-    color:#444;
-}
-
 .expression {
     font-weight:bold;
     color:#222;
-}
-
-footer img {
-    padding-top: 15px;
 }

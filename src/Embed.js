@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+simport React, { useState, useCallback, useEffect } from "react";
 import _ from "lodash";
 import "./Embed.css";
 
