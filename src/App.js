@@ -1,20 +1,16 @@
 import "util";
-import React, { useMemo, useReducer } from "react";
+import React, { useReducer } from "react";
 import ReactDOM from "react-dom";
 import Slider from "./Slider";
 import MathStatement from "./MathStatement";
 
 import "./App.css";
 
-function App({ast, astState}) {
-    const reducer = (state, o) => {
-	return {...state, ...o};
-    }
+function App(props) {
 
-    const [state, dispatch] = useReducer(reducer, astState);
+    const reducer = (state, o) => ({...state, ...o});
+    const [state, dispatch] = useReducer(reducer, props.astState);
 
-    ast.map(toComponents);
-    
     function toComponents(o, i) {
 	if (o.type==='slider') {
 	    return ReactDOM.render(	    
@@ -29,9 +25,14 @@ function App({ast, astState}) {
 		document.getElementById(`account-${i}`)
 	    );
 	}
+	else {
+	    return null;
+	}
     }
     
-    return null;
+    props.ast.map(toComponents);
+    
+    return (null);
 
 }
 

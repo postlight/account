@@ -1,20 +1,22 @@
-import React, {useState, useEffect, useMemo} from "react";
+import React, {useState, useEffect} from "react";
 import "./Slider.css";
+const numeral = require("numeral");
 
 function Slider(props) {
-    
+
+    const fmt = props.qualifiers?.format ? props.qualifiers.format.string : '0,0';
+
+
     function transform (x) {
 	let v = {};
 	if (x.length > 1) {
 	    v = {
-		formatString: x[0].formatString,
 		min: x[0].value,
 		max: x[1].value,
 		value: x[1].value - (x[1].value - x[0].value) / 2,
 	    }
 	} else {
 	    v = {
-		formatString: x[0].formatString,
 		min: 0,
 		max: x[0].value * 2,
 		value: 1.0 * x[0].value,
@@ -47,7 +49,7 @@ function Slider(props) {
 		min={adjustedValues.min}
 		max={adjustedValues.max}
 	    />
-	    <span className="slider-value">{value}</span>	    
+	    <span className="slider-value">{numeral(value).format(fmt)}</span>	    
 	</span>
 
     );    

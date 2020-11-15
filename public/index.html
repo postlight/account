@@ -9,16 +9,25 @@
     </style>
   </head>
   <body>
+    <h1>My Story</h1>
+
+    <p>At the absolute peak I would expect {{visitors=slider:[1000,1000000]}} visitors per hour.</p>
+
+    <p>This means I could expect to deploy {{servers=math:(visitors/100000)}} servers at peak. Since servers cost {{cost=slider:[0,100]}} cents/hr, this means I'll be paying <span style="font-size:200%;">${{total=math:(servers * cost * 24 * 31 / 100), format:'0.00'}}</span>  a month.</p>
+    
     <p>Hello it's me your pal Paul Ford. I live in America.</p>
 
-    <p>I was born in {{born=slider:[1950,2000]}}.</p>
+    <p>I was born in {{born=slider:[1950,2000], format:'0'}}.</p>
 
-    <p>I plan to work until I'm {{retireage=slider:[60,80]}} and live until I'm {{maxage=slider:[40,100]}} years of age. That means I have {{workyears=math:(retireage - (2021 - born))}} years of work left and {{years=math:(maxage - (2021 - born))}} years of life left, and {{weeks=math:(years * 52)}} weeks.</p>
+    <p>I plan to live until I'm {{maxage=slider:[40,100]}} years of age.  That means I have {{years=math:(maxage - (2021 - born))}} years of life left, and {{weeks=math:(years * 52)}} weeks.</p>
 
     <p>This means I can eat {{meals=math:(weeks * 7 * 3)}} meals. I'll spend {{commute=math:(years * 200 * 2)}} hours commuting, which means I can listen to {{podcasts=math:(commute*2)}} podcasts, as long as they're normal length, not just people talking for hours.</p>
 
-    <p>Or I could just spend {{twitter=math:(years * 365 * 6)}} hours on Twitter.</p>
+    <p>Or I could just spend {{twitter=math:(years * 365 * 4)}} hours on Twitter--that's time enough to read {{books=math:(twitter/16)}} books, or watch {{movies=math:(twitter/2)}} movies.</p>
+
+    <p>I should definitely spend {{exercise=math:(weeks*7)}} hours exercising.</p>
     
     
   </body>
+
 </html>

@@ -1,0 +1,13 @@
+{{months=range:[1,12]}}
+
+{{onoff=switch:[0,1]}}
+
+{{total=result:()}}
+
+{{results=table:[source:'https://127.0.0.1/',
+	transform:[column:2, operation:((x)=>x*months),
+	summary:sum(x)
+]]}}
+
+{{months=chart:[x:months, y:colors]}}
+
