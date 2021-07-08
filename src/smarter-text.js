@@ -54,6 +54,30 @@ function explainDecimal(d) {
   return { value: numeral(d).value(), formatString: formatString };
 }
 
+// Add custom functions to Parser
+
+// With compounding interest, calculate how many months it will take to reach a goal balance
+// Given a start balance, a monthly investment, and an annual interest rate
+// Also make it readable
+Exp.functions.monthsToGoalBalanceViaCompoundInterest = function (
+  startBalance,
+  goalBalance,
+  monthlyInvestment,
+  annualReturn
+) {
+  // Coerce to Numbers
+  var balance = Number(startBalance);
+  var endBalance = Number(goalBalance);
+  var monthlyAddition = Number(monthlyInvestment);
+  var monthlyRate = Number(annualReturn) / 12 / 100;
+  var monthsPassed = 0;
+  while (balance < endBalance) {
+    balance += balance * monthlyRate + monthlyAddition;
+    monthsPassed++;
+  }
+  return monthsPassed;
+};
+
 // Same as above, but we don't know value yet
 function makeExpression(parseResult, kind) {
   const [expression, variable] = parseResult;
