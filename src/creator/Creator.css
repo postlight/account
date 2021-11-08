@@ -1,0 +1,28 @@
+p,
+portal-element {
+  display: inline-block;
+}
+
+.ql-formats button {
+  margin: 0;
+}
+
+.ql-toolbar.ql-snow {
+  border: none !important;
+  border-bottom: 1px solid #cacaca !important;
+  padding: 0 !important;
+}
+
+.ql-container.ql-snow {
+  border: none !important;
+}
+
+.ql-editor {
+  border: none !important;
+  border-bottom: 1px solid #cacaca !important;
+  min-height: 200px;
+}
+
+.language-account {
+  z-index: 0;
+}
