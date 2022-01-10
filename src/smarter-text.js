@@ -150,7 +150,7 @@ const docParser = P.createLanguage({
 
   Decimal: (r) => P.regexp(/[+-]?[0-9.]+/).map(explainDecimal),
 
-  Link: (r) => P.regexp(/\[([^\[\]]*)\]\((.*?)\)/).map(makeLink),
+  Link: (r) => P.regexp(/\[([^[\]]*)\]\((.*?)\)/).map(makeLink),
 
   Text: (r) =>
     P.alt(P.any, P.whitespace).map((x) => ({ type: "text", value: x })),
