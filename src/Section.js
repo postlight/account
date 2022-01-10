@@ -43,6 +43,9 @@ function Section({ ast, astState, page, rawText }) {
       case "text":
         return <Text key={i} {...o} />;
 
+      case "link":
+        return <a href={o.href}>{o.anchorText}</a>;
+
       case "statement":
         return (
           <span className="full-statement" key={i}>
