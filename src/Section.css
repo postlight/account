@@ -6,6 +6,10 @@ h1 {
   margin: 0em 0 0.25em 0;
 }
 
+.App--embedded h1 {
+  text-align: left;
+}
+
 button {
   align-items: center;
   background: none;
@@ -15,21 +19,36 @@ button {
   font-size: 0.7em;
   font-weight: bold;
   margin: 20px 0;
-}
-
-button:hover {
   cursor: pointer;
+  padding: 0;
 }
 
 #text {
-  padding: 0.25em 2em 0 2em;
   color: #444;
+  min-height: calc(100vh - (2.25em + 32px));
+}
+
+.App--embedded #text {
+  min-height: 0;
 }
 
 .source {
   border: 1px solid slategray;
   max-height: 250px;
   overflow-y: scroll;
+}
+
+textarea.embed {
+  padding: .9375rem .5rem;
+  font: inherit;
+  font-family: Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+  font-size: .875rem;
+  line-height: 1.5rem;
+  border: 1px solid slategray;
+  width: 100%;
+  max-height: 250px;
+  overflow-y: scroll;
+  box-sizing: border-box;
 }
 
 .up-triangle {
