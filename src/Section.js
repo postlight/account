@@ -1,7 +1,5 @@
-import "util";
 import numeral from "numeral";
-import useSearchParams from "@postlight/use-search-params";
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "./Slider";
 import Statement from "./Statement";
 import Text from "./Text";
@@ -21,16 +19,24 @@ Prism.languages.account = {
 };
 
 function Section({ ast, astState, page, rawText }) {
-  const [viewSource, setViewSource] = useState();
-  const searchParams = useSearchParams("replace");
-  const state = useMemo(readFields, [astState, searchParams]);
+  const [viewSource, setViewSource] = useState(false);
+  const [state, setState] = useState(readFields());
+  const [historyState, setHistoryState] =
+    useState(new URLSearchParams(window.location.search).toString())
 
   function addField(k, v) {
-    searchParams.set(k, v);
+    const newState = { ...state, [k]: v }
+    const newHistoryState = new URLSearchParams(historyState)
+    newHistoryState.set(k, v)
+    setHistoryState(newHistoryState.toString())
+    window.history.replaceState({}, null, `/${page}?${newHistoryState.toString()}`)
+    setState(newState)
     return v;
   }
 
   function readFields() {
+    const searchParams = new URLSearchParams(window.location.search);
+
     return Object.fromEntries(
       Object.keys(astState).map((k) => {
         return [k, searchParams.get(k) || astState[k]];
@@ -82,10 +88,6 @@ function Section({ ast, astState, page, rawText }) {
         return undefined;
     }
   }
-
-  useEffect(() => {
-    setViewSource(false);
-  }, [page]);
 
   useEffect(() => {
     if (viewSource) {

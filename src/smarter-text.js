@@ -176,8 +176,4 @@ function parse(text) {
   return [concatted, state];
 }
 
-// var fs = require("fs");
-// var text = fs.readFileSync("./texts/advertising.txt").toString();
-// let x = parse(text);
-
 export default parse;
