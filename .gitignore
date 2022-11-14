@@ -25,3 +25,5 @@ yarn-error.log*
 *~
 \#*
 .#*
+
+src/texts/compiled.json

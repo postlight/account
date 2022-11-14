@@ -4,24 +4,20 @@ import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import {
-  BrowserRouter as Router,
+  BrowserRouter,
+  Routes,
   Route,
-  Redirect,
-  Switch,
+  Navigate,
 } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <Switch>
-        <Route path="/:page">
-          <App />
-        </Route>
-        <Route path="/">
-          <Redirect to="/soda" />
-        </Route>
-      </Switch>
-    </Router>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/:page" element={<App />} />
+        <Route path="/" element={<Navigate to="/soda" replace />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );
