@@ -38,11 +38,11 @@ ${0.00-3.50:soda_cost} per Diet
 Coke.
 
 If you'd put that into an index
-fund with a {-10.00-12.00:return}%
+fund with a {-10.00-12.00:annual_yield}%
 annual rate of return, you'd have
 ${=((((sodas_daily * 365) * soda_cost) / 12) *
-(((1 + ((return/100)/12)) ^ 120) - 1)
-/ ((return/100)/12)):total}
+(((1 + ((annual_yield/100)/12)) ^ 120) - 1)
+/ ((annual_yield/100)/12)):total}
 
 within a decade. :+1:
 
