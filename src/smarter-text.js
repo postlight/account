@@ -86,13 +86,24 @@ function makeRange(parseResult) {
     };
   }
 }
+
+function makeLink(parseResult) {
+  const matches = parseResult.match(/\[(.*?)\]\((.*?)\)/);
+
+  return {
+    type: "link",
+    anchorText: matches[1],
+    href: matches[2],
+  };
+}
+
 const docParser = P.createLanguage({
   // The .many() is important -- we're parsing into an array of any
   // sequence of these Parser matches. The parser isn't expecting
   // that; it wants hierarchy. Without that, the parser fails and
   // says (most often) that it was expecting EOF.
 
-  Doc: (r) => P.alt(r.DecimalExpression, r.Statement, r.Text).many(),
+  Doc: (r) => P.alt(r.DecimalExpression, r.Statement, r.Link, r.Text).many(),
 
   Statement: (r) =>
     P.alt(r.DollarStatement, r.PercentageStatement, r.DecimalStatement),
@@ -138,6 +149,8 @@ const docParser = P.createLanguage({
   Math: (r) => P.regexp(/[^:]+/),
 
   Decimal: (r) => P.regexp(/[+-]?[0-9.]+/).map(explainDecimal),
+
+  Link: (r) => P.regexp(/\[([^[\]]*)\]\((.*?)\)/).map(makeLink),
 
   Text: (r) =>
     P.alt(P.any, P.whitespace).map((x) => ({ type: "text", value: x })),
