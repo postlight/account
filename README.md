@@ -72,6 +72,7 @@ Yields:
 - Numbers are just numbers, and can be negative (currently only on the left-hand-side of a statement, sorry!) or have decimal points.
 - If you use a dollar sign ala ```${100:dollars}``` it will try to format things intelligently.
 - It'll try to keep the number of decimal points steady, i.e. if you type ```{0.00-100.00:rating}``` it'll format the output to the hundredth after the decimal. (Most of that stuff is hacky, YMMV.)
+- It respects Markdown-style link formatting, so `[Wikipedia](https://www.wikipedia.org)` will render `<a href="https://wikipedia.org">Wikipedia</a>`. 
 
 ## Under the hood
 
