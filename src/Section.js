@@ -8,6 +8,9 @@ import Prism from "prismjs";
 import "./Source.css";
 import "./Section.css";
 
+// TODO: Change this per env
+const HOST = 'https://account.postlight.com'
+
 const template = Prism.languages.javascript["template-string"].inside;
 
 Prism.languages.account = {
@@ -18,8 +21,9 @@ Prism.languages.account = {
   },
 };
 
-function Section({ ast, astState, page, rawText }) {
+function Section({ ast, astState, page, rawText, embedded }) {
   const [viewSource, setViewSource] = useState(false);
+  const [showEmbed, setShowEmbed] = useState(false);
   const [state, setState] = useState(readFields());
   const [historyState, setHistoryState] =
     useState(new URLSearchParams(window.location.search).toString())
@@ -98,10 +102,10 @@ function Section({ ast, astState, page, rawText }) {
     }
   }, [viewSource]);
 
-  return (
-    <div id="text">
-      <h1>{page}</h1>
-      {ast.map(toComponents)}
+  let postscript = null
+
+  if (!embedded) {
+    postscript = <>
       <button onClick={() => setViewSource(!viewSource)}>
         {viewSource ? (
           <>
@@ -122,6 +126,25 @@ function Section({ ast, astState, page, rawText }) {
           </pre>
         </div>
       )}
+      <button onClick={() => setShowEmbed(!showEmbed)}>
+        <span>
+          {showEmbed ? 'Hide embed' : 'Show embed'}
+        </span>
+        <div className={showEmbed ? 'down-triangle' : 'up-triangle'} />
+      </button>
+      {showEmbed && (
+        <textarea className="embed">
+          {`<iframe title="${page} - Account" src="${HOST}/${page}${window.location.search}&embed=true" height="640px" width="100%" allowtransparency="true" frameborder="0"></iframe>`}
+        </textarea>
+      )}
+    </>
+  }
+
+  return (
+    <div id="text">
+      <h1>{page}</h1>
+      {ast.map(toComponents)}
+      {postscript}
     </div>
   );
 }

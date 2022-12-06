@@ -6,28 +6,12 @@ import { Link } from "react-router-dom";
 function Nav(props) {
   const [hamburgerOpen, setHamburgerOpen] = useState(false);
 
-  function makeLink(k, i) {
-    return (
-      <div className="navEl" key={i}>
-        <Link
-          to={"/" + k}
-          onClick={() => {
-            setHamburgerOpen(false);
-          }}
-          className="navEl"
-        >
-          {k}
-        </Link>
-      </div>
-    );
-  }
-
   return (
     <>
       <div className="burger">
         <HamburgerMenu
           isOpen={hamburgerOpen}
-          menuClicked={() => setHamburgerOpen(hamburgerOpen ? false : true)}
+          menuClicked={() => setHamburgerOpen(!hamburgerOpen)}
           width={30}
           height={25}
           strokeWidth={4}
@@ -38,8 +22,20 @@ function Nav(props) {
           color="slategray"
         />
       </div>
-      <div id="nav" key="nav" className={"hamburger-" + hamburgerOpen}>
-        <div id="inner-nav">{[Object.keys(props.textVars).map(makeLink)]}</div>
+      <div id="nav" key="nav" className={`hamburger-${hamburgerOpen}`}>
+        <div id="inner-nav">
+          {Object.keys(props.textVars).map((key) => (
+            <div className="navEl" key={key}>
+              <Link
+                to={`/${key}`}
+                onClick={() => { setHamburgerOpen(false); }}
+                className="navEl"
+              >
+                {key}
+              </Link>
+            </div>
+          ))}
+        </div>
         <div id="footer">
           <p>
             This is{" "}
