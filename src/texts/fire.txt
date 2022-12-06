@@ -4,4 +4,5 @@ Your monthly take-home pay :dollar: is ${5000:monthlynet} and your monthly expen
 
 If you invest {=(100 / 4):multiple}x your annual expenses, or ${=multiple * (monthlyexpenses * 12):accumulationrequired}, a "safe" annual withdrawal rate of 4% :chart_with_downwards_trend: will cover :knife_fork_plate: :house: :pill: :car:.
 
-If you've already got ${10000:saved} invested :money_mouth:, at your savings rate plus a {6:return}% return, it will take {=(accumulationrequired - saved) / (((monthlynet - monthlyexpenses) * 12) + (((monthlynet - monthlyexpenses) * 12) + saved) * (return/100)):years} more years :older_adult: to build up enough enough :money_bag: quit working :wave: live on those returns :dancer: and achieve financial independence. :fire: :fire:
+If you've already got ${10000:saved} invested :money_mouth: and you're depositing ${=monthlynet-monthlyexpenses:monthlysavings} a month, at a {6:return}% annual return, it will take {=ceil(monthsToGoalBalanceViaCompoundInterest(saved, accumulationrequired, monthlysavings, return)/12):years} years :older_adult: to build up enough :money_bag: quit working :wave: live on those returns :dancer: and achieve financial independence. :fire: :fire: :fire:
+
